@@ -1,0 +1,82 @@
+<ul class="nav nav-pills nav-stacked side-navigation">
+
+    <li>
+        <h3 class="navigation-title">Navigation</h3>
+    </li>
+    <li>
+        <a href="{{ url('admin') }}">
+            <i class="fa fa-home"></i> <span>Dashboard</span>
+        </a>
+    </li>
+
+    <li>
+        <h3 class="navigation-title">Advertisments</h3>
+    </li>
+    <li class="menu-list">
+        <a href="">
+            <i class="fa fa-file-text-o"></i><span>Cashless Ads</span>
+        </a>
+        <ul class="child-list">
+            <li><a href="{{ url('advert/pendingAds') }}">Pending Approval</a></li>
+            <li><a href="{{ url('admin/home/social') }}">Approved</a></li>
+        </ul>
+    </li>
+
+    <li class="menu-list">
+        <a href="">
+            <i class="fa fa-file-text-o"></i><span>Promo Info Ads</span>
+        </a>
+        <ul class="child-list">
+            <li><a href="{{ url('admin/home/logo') }}">Pending Approval</a></li>
+            <li><a href="{{ url('admin/home/social') }}">Approved</a></li>
+        </ul>
+    </li>
+
+    <li>
+        <a href="#">
+            <i class="fa fa-file-text-o"></i><span>Ad Rates</span>
+        </a>
+    </li>
+
+    <li>
+        <h3 class="navigation-title">Questions & Batches</h3>
+    </li>
+    <li class="menu-list">
+        <a href="">
+            <i class="fa fa-question"></i><span>Questions</span>
+        </a>
+        <ul class="child-list">
+            <li><a href="{{ url('question/add') }}">Add Questions</a></li>
+            <li><a href="{{ url('question/allocate') }}">Allocate Questions</a></li>
+            <li><a href="{{ url('question/list') }}">All Questions</a></li>
+        </ul>
+    </li>
+
+    <li class="menu-list">
+        <a href="">
+            <i class="fa fa-file-text-o"></i><span>Batches</span>
+        </a>
+        <ul class="child-list">
+            <li><a href="{{ url('batch/create') }}">Create Batches</a></li>
+            <li><a href="{{ url('batch/assign') }}">Assign Batches</a></li>
+        </ul>
+    </li>
+
+    <li>
+        <h3 class="navigation-title">Communication</h3>
+    </li>
+
+    <li>
+        <a href="">
+            <i class="fa fa-envelope-o"></i><span>Message All Members</span>
+        </a>
+        <a href="">
+            <i class="fa fa-envelope-o"></i><span>Message All Vendors</span>
+        </a>
+        <a href="">
+            <i class="fa fa-envelope-o"></i><span>Message an Indiviual</span>
+        </a>
+    </li>
+
+
+</ul>

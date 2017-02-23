@@ -1,0 +1,19 @@
+.sticky-header .logo {
+    background-color: #fff;
+    left: 0;
+    position: fixed;
+    top: 0;
+    width: 240px;
+    z-index: 100;
+}
+ .dt-buttons{
+    float:right;
+    margin-top: 20px;
+    margin-right: 20px;
+}
+#sample_1_length {
+    margin-left: 20px;
+}
+#sample_1_filter{
+    margin-right: 20px;
+}
