@@ -17,6 +17,13 @@
     </style>
 
     <div class="wrapper" ng-app="gratisApp">
+    
+        <div class="row">
+            <div class="col-md-12">
+                @include("partials/flash")
+            </div>
+        </div>
+        
         <div class="row" ng-controller="qCtrl as Q">
 
             <div class="col-md-12">
@@ -30,6 +37,9 @@
                                 <tr>
                                     <th>
                                         Vendor
+                                    </th>
+                                    <th>
+                                        Description
                                     </th>
                                     <th>
                                         Incentive
@@ -49,33 +59,36 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                @for($i=0;$i<10;$i++)
+                                @foreach($pAds as $a)
                                     <tr>
                                         <td>
-                                            Reftek
+                                            {{$a->vendor->name}}
                                         </td>
                                         <td>
-                                            Free website
+                                            <small>{{$a->description}}</small>
                                         </td>
                                         <td>
-                                            {{number_format(14000)}}
+                                            {{$a->incentive}}
                                         </td>
                                         <td>
-                                            Random
+                                            {{number_format($a->incentive_amt)}}
                                         </td>
                                         <td>
-                                            3 days ago
+                                            {{$a->selection_method}}
+                                        </td>
+                                        <td>
+                                            {{$a->created_at->diffForHumans()}}
                                         </td>
                                         <td style="text-align: right">
-                                            <button class="btn btn-success btn-sm">
+                                            <a href="{{url('advert/approve/'.$a->id)}}" class="btn btn-success btn-sm">
                                                 <i class="fa fa-check"></i> Approve
-                                            </button>
+                                            </a>
                                             <button class="btn btn-danger btn-sm">
                                                 <i class="fa fa-close"></i> Cancel
                                             </button>
                                         </td>
                                     </tr>
-                                @endfor
+                                @endforeach
                             </tbody>
                         </table>
                     </div>

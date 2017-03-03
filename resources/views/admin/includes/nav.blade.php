@@ -18,7 +18,8 @@
         </a>
         <ul class="child-list">
             <li><a href="{{ url('advert/pendingAds') }}">Pending Approval</a></li>
-            <li><a href="{{ url('admin/home/social') }}">Approved</a></li>
+            <li><a href="{{ url('advert/approvedAds') }}">Approved</a></li>
+            <li><a href="{{ url('advert/liveads') }}">Live Ads</a></li>
         </ul>
     </li>
 
@@ -27,8 +28,9 @@
             <i class="fa fa-file-text-o"></i><span>Promo Info Ads</span>
         </a>
         <ul class="child-list">
-            <li><a href="{{ url('admin/home/logo') }}">Pending Approval</a></li>
-            <li><a href="{{ url('admin/home/social') }}">Approved</a></li>
+            <li><a href="{{ url('advert/pendingPromos') }}">Pending Approval</a></li>
+            <li><a href="{{ url('advert/approvedPromos') }}">Approved</a></li>
+            <li><a href="{{ url('advert/livepromos') }}">Live Promos</a></li>
         </ul>
     </li>
 
@@ -47,12 +49,12 @@
         </a>
         <ul class="child-list">
             <li><a href="{{ url('question/add') }}">Add Questions</a></li>
-            <li><a href="{{ url('question/allocate') }}">Allocate Questions</a></li>
+            <!-- <li><a href="{{ url('question/allocate') }}">Allocate Questions</a></li> -->
             <li><a href="{{ url('question/list') }}">All Questions</a></li>
         </ul>
     </li>
 
-    <li class="menu-list">
+   <!-- <li class="menu-list">
         <a href="">
             <i class="fa fa-file-text-o"></i><span>Batches</span>
         </a>
@@ -76,7 +78,7 @@
         <a href="">
             <i class="fa fa-envelope-o"></i><span>Message an Indiviual</span>
         </a>
-    </li>
+    </li> -->
 
 
 </ul>

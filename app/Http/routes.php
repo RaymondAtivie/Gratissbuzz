@@ -23,3 +23,11 @@ Route::group([
     require_once("Routes/question.php");
     require_once("Routes/adverts.php");
 });
+
+
+Route::group([
+    'prefix' => 'api',
+    'middleware' => 'cors'
+], function () {
+    require_once("Routes/api.php");
+});

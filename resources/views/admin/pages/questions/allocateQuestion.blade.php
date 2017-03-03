@@ -18,10 +18,11 @@
 
     <div class="wrapper" ng-app="gratisApp">
 
+<form>
         <div class="row">
             <div class="col-sm-8">
-                <button class="btn btn-lg btn-primary">Allocate</button>
-                <button class="btn btn-lg btn-primary">Randomly Allocate All</button>
+                <button type="submit" class="btn btn-lg btn-primary">Allocate</button>
+                <button type="button" class="btn btn-lg btn-primary">Randomly Allocate All</button>
             </div>
         </div>
         <br />
@@ -47,41 +48,34 @@
                                     <th>
                                         Type
                                     </th>
-                                    <th>
-                                        Used
-                                    </th>
                                 </tr>
                             </thead>
                             <tbody>
-                                @for($i=0;$i<10;$i++)
+                            <?php $i=0; ?>
+                                @foreach($questions as $q)
                                     <tr>
                                         <td>
                                             <label>
-                                                <input type="radio" name="question_id" value="{{$i}}" />
+                                                <input type="radio" name="question_id" value="{{$q->id}}" />
                                             </label>
                                         </td>
                                         <td>
                                             {{$i+1}}
                                         </td>
                                         <td>
-                                            <small>Questions for the gods</small>
+                                            <small>{{$q->question}}</small>
                                         </td>
                                         <td>
-                                            Theory
-                                        </td>
-                                        <td>
-                                            2
+                                            {{$q->type}}
                                         </td>
                                     </tr>
-                                @endfor
+                                    <?php $i++; ?>
+                                @endforeach
                             </tbody>
                         </table>
                     </div>
                 </section>
             </div>
-
-            {{-- <div class="col-md-1">
-        </div> --}}
 
         <div class="col-md-6">
             <section class="panel">
@@ -107,22 +101,22 @@
                             </tr>
                         </thead>
                         <tbody>
-                            @for($i=0;$i<10;$i++)
+                            @foreach($ads as $ad)
                                 <tr>
                                     <td>
-                                        <input type="radio" name="vendor_id" value="{{$i}}" />
+                                        <input type="radio" name="ad_id" value="{{$ad->id}}" />
                                     </td>
                                     <td>
-                                        Reftek
+                                        {{$ad->vendor->name}}
                                     </td>
                                     <td>
-                                        Free Website
+                                        {{$ad->incentive}}
                                     </td>
                                     <td>
-                                        {{number_format(140000)}}
+                                        {{number_format($ad->incentive_amt)}}                                        
                                     </td>
                                 </tr>
-                            @endfor
+                            @endforeach
                         </tbody>
                     </table>
                 </div>
@@ -131,6 +125,7 @@
 
     </div>
 </div>
+</form>
 @stop
 
 @section('styles')

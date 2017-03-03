@@ -27,6 +27,6 @@ class User extends Authenticatable
     //Relationships
     public function vendor()
     {
-        return $this->hasOne("App\Models\Vendor");
+        return $this->hasMany("App\Models\Vendor");
     }
 }

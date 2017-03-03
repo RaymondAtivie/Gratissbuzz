@@ -18,6 +18,10 @@
 
     <div class="wrapper" ng-app="gratisApp">
         <div class="row" ng-controller="qCtrl as Q">
+        
+        <div class="col-md-12">
+            @include("partials/flash")
+        </div>     
 
             <div class="col-md-6">
                 <section class="panel">
@@ -25,14 +29,14 @@
                         Add a new Question
                     </header>
                     <div class="panel-body">
-                        <form method="POST" enctype="multipart/form-data" autocomplete="off" action="{{ url('admin/home/changeLogo/') }}">
+                        <form method="POST" enctype="multipart/form-data" autocomplete="off" action="{{ url('question/create') }}">
                             <input type="hidden" name="_token" value="{{ Session::getToken() }}"/>
                             @include('partials.errors')
                             @include('partials.messages')
                             <div class="col-sm-12">
                                 <div class="form-group">
                                     <h4>Question</h4>
-                                    <textarea name="name" class="form-control" rows="5"></textarea>
+                                    <textarea name="question" class="form-control" required rows="5"></textarea>
                                 </div>
                             </div>
 
@@ -47,7 +51,7 @@
                                 </div>
                             </div>
 
-                            <div class="col-sm-12" ng-show="Q.type == 'obj'">
+                            <div class="col-sm-12" ng-if="Q.type == 'obj'">
                                 <h4>Answer Options</h4>
                                 <div class="row">
                                     <div class="col-sm-12">
@@ -56,7 +60,7 @@
                                                 <input type="radio" name="answer" value="A">
                                             </span>
                                             <span class="input-group-addon"><b>A</b></span>
-                                            <input type="text" class="form-control" placeholder="Option A">
+                                            <input type="text" name="option_a" class="form-control" required placeholder="Option A">
                                         </div>
                                     </div>
                                     <div class="col-sm-12">
@@ -66,7 +70,7 @@
                                                 <input type="radio" name="answer" value="B">
                                             </span>
                                             <span class="input-group-addon"><b>B</b></span>
-                                            <input type="text" class="form-control" placeholder="Option B">
+                                            <input type="text" name="option_b" class="form-control" required placeholder="Option B">
                                         </div>
                                     </div>
                                     <div class="col-sm-12">
@@ -76,7 +80,7 @@
                                                 <input type="radio" name="answer" value="C">
                                             </span>
                                             <span class="input-group-addon"><b>C</b></span>
-                                            <input type="text" class="form-control" placeholder="Option C">
+                                            <input type="text" name="option_c" class="form-control" required placeholder="Option C">
                                         </div>
                                     </div>
                                     <div class="col-sm-12">
@@ -86,14 +90,14 @@
                                                 <input type="radio" name="answer" value="D">
                                             </span>
                                             <span class="input-group-addon"><b>D</b></span>
-                                            <input type="text" class="form-control" placeholder="Option D">
+                                            <input type="text" name="option_d" class="form-control" required placeholder="Option D">
                                         </div>
                                     </div>
                                 </div>
                             </div>
-                            <div class="col-sm-12"  ng-show="Q.type == 'theory'">
+                            <div class="col-sm-12"  ng-if="Q.type == 'theory'">
                                 <h4>Theory Answer</h4>
-                                <textarea name="name" class="form-control" rows="2"></textarea>
+                                <textarea name="answer" class="form-control" required rows="2"></textarea>
                             </div>
 
                             <div class="col-sm-12">

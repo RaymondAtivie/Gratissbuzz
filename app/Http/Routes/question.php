@@ -7,4 +7,4 @@ Route::get('question/list', 'QuestionController@lists');
 Route::get('batch/create', 'QuestionController@createBatch');
 Route::get('batch/assign', 'QuestionController@assignBatch');
 
-Route::get('advert/pendingAds', 'AdvertController@pendingAds');
+Route::post('question/create', 'QuestionController@createQuestion');

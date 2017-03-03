@@ -1,14 +1,14 @@
 @extends('layout.default')
 @section('title')
-    Add Question
+    Pending Promos
 @stop
 @section('main')
     <!-- Slider -->
     <div class="page-head">
         <h3>
-            Questions
+            Promos
         </h3>
-        <span class="sub-title">Add a new Question</span>
+        <span class="sub-title">Pending Approval</span>
     </div>
     <style>
     textarea{
@@ -17,49 +17,62 @@
     </style>
 
     <div class="wrapper" ng-app="gratisApp">
+    
+        <div class="row">
+            <div class="col-md-12">
+                @include("partials/flash")
+            </div>
+        </div>
+        
         <div class="row" ng-controller="qCtrl as Q">
 
             <div class="col-md-12">
                 <section class="panel">
                     <header class="panel-heading">
-                        Questions List
+                        Promo List
                     </header>
                     <div class="panel-body">
                         <table class="table convert-data-table data-table"  id="sample_1">
                             <thead>
                                 <tr>
                                     <th>
-                                        S/N
+                                        Vendor
+                                    </th>
+                                    <th class="col-md-2">
+                                        Image
                                     </th>
                                     <th>
-                                        Question
+                                        Description
                                     </th>
                                     <th>
-                                        Type
+                                        Created
                                     </th>
                                     <th>
-                                        Answer
+                                        Action
                                     </th>
                                 </tr>
                             </thead>
-                            <tbody>
-                            <?php $i=0; ?>
-                                @foreach($questions as $q)
+                           <tbody>
+                                @foreach($pAds as $a)
                                     <tr>
                                         <td>
-                                            {{$i+1}}
+                                            {{$a->vendor->name}}
+                                        </td>
+                                        <td data-featherlight="#lightbox{{$a->id}}">
+                                            <img src="{{$a->image}}" id="lightbox{{$a->id}}" class="img-responsive" />
                                         </td>
                                         <td>
-                                            <small>{{$q->question}}</small>
+                                            <small>{{$a->description}}</small>
                                         </td>
-                                        <td>
-                                            {{$q->type}}
+                                        <td title="{{$a->created_at->format('d M Y H:i a')}}">
+                                            {{$a->created_at->diffForHumans()}}
                                         </td>
-                                        <td>
-                                            {{$q->answer}}
+                                        <td style="text-align: right">
+                                            <a href="{{url('advert/approvepromo/'.$a->id)}}" class="btn btn-success btn-sm">
+                                                <i class="fa fa-check"></i> Approve
+                                            </a>
                                         </td>
                                     </tr>
-                                    <?php $i++; ?>
                                 @endforeach
                             </tbody>
                         </table>
