@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 
 use App\Http\Requests;
-use App\Models\User;
+use App\User;
 
 use Auth; 
 
@@ -26,5 +26,22 @@ class UserController extends Controller
         }
 
 		return response()->json($output, 200);
+    }
+
+    public function signup(Request $req){
+        $output = [
+            "status"=>"success"
+        ];
+
+         $output['user'] = User::create([
+            'name' => $req->name,
+            'image' => url('assets/images/vendor/unknown.jpg'),
+            'email' => $req->email,
+            'phone' => $req->phone,
+            'password' => bcrypt($req->password),
+        ]);
+        $output['message'] = "Successfully logged in";
+
+		return response()->json($output, 201);
     }
 }

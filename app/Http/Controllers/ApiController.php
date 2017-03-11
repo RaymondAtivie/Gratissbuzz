@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 
 use App\Http\Requests;
+use App\User;
 use App\Models\Vendor;
 use App\Models\Ad;
 use App\Models\Promo;
@@ -24,6 +25,16 @@ class ApiController extends Controller
 		
 		return response()->json($users, 200);
 	}
+
+    function addVendor(Request $request, User $user){
+        $post = $request->all();
+
+        $post['image'] = url('assets/images/vendor/unknown.jpg');
+        $post['extra_image'] = url('assets/images/vendor/unknown.jpg');
+        $newVendor = $user->vendor()->create($post);
+
+		return response()->json($newVendor, 201);        
+    }
 	
 	function getLivePromos(){
 		$promos = \App\Models\LivePromo::
@@ -36,8 +47,6 @@ class ApiController extends Controller
 	}
 	
 	function getLiveAds(){
-        // print_r($this->now);
-        // echo $this->now;
 		$ads = \App\Models\LiveAd::
             whereDate("begin", "<=", $this->now)
             ->whereDate("end", ">=", $this->now)
@@ -96,5 +105,14 @@ class ApiController extends Controller
         $ad = Ad::create($post);
 
 		return response()->json($ad, 201);        
+    }
+
+    function submitPromo(Request $request, Vendor $vendor){
+        $post = $request->all();
+
+        $post['vendor_id'] = $vendor->id;
+        $promo = Promo::create($post);
+
+		return response()->json($promo, 201);        
     }
 }
