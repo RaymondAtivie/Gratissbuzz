@@ -8,7 +8,7 @@
         <h3>
             Dashboard
         </h3>
-        <span class="sub-title">Welcome to Youpple Events</span>
+        <!-- <span class="sub-title">Welcome to Youpple Events</span> -->
     </div>
 
     <div class="wrapper">

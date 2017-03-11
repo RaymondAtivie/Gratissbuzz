@@ -31,4 +31,8 @@ class LiveAd extends Model
 	public function ad(){
 		return $this->belongsTo("App\Models\Ad");
 	}
+	
+	public function vendor(){
+		return $this->belongsTo("App\Models\Vendor");
+	}
 }

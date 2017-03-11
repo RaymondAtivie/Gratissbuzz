@@ -100,6 +100,7 @@ class AdvertController extends Controller
 
         $lp = [
             "promo_id" => $promo->id,
+            "vendor_id" => $promo->vendor->id,
             "begin" => $beginDate,
             "end" => $endDate,
         ];
@@ -134,6 +135,7 @@ class AdvertController extends Controller
 
         $lp = [
             "ad_id" => $ad->id,
+            "vendor_id" => $ad->vendor->id,
             "question_id" => $question_id,
             "selection_method" => $selection_method,
             "begin" => $beginDate,

@@ -13,5 +13,22 @@ class Vendor extends Model
     {
         return $this->belongsTo("App\User", "user_id");
     }
+
+    public function ads()
+    {
+        return $this->hasMany("App\Models\Ad");
+    }
+    public function promos()
+    {
+        return $this->hasMany("App\Models\Ad");
+    }
+    public function liveads()
+    {
+        return $this->hasMany("App\Models\LiveAd");
+    }
+    public function livepromos()
+    {
+        return $this->hasMany("App\Models\LivePromo");
+    }
     
 }

@@ -28,4 +28,8 @@ class LivePromo extends Model
 		return $this->belongsTo("App\Models\Promo");
 	}
 	
+	public function vendor(){
+		return $this->belongsTo("App\Models\Vendor");
+	}
+	
 }
