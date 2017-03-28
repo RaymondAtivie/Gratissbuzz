@@ -17,6 +17,10 @@
     </style>
 
     <div class="wrapper" ng-app="gratisApp">
+       
+        <div class="col-md-12">
+            @include("partials/flash")
+        </div> 
 
 <form>
         <div class="row">

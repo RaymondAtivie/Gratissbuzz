@@ -39,6 +39,17 @@
                                     <textarea name="question" class="form-control" required rows="5"></textarea>
                                 </div>
                             </div>
+                            <div class="col-sm-12">
+                                <div class="form-group">
+                                    <h4>Question Category</h4>
+                                    <select name="category" class="form-control" required>
+                                        <option value="">--SELECT A CATEGORY--</option>
+                                        @foreach($qcs as $qc)
+                                            <option value="{{$qc}}">{{$qc}}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                            </div>
 
                             <div class="col-sm-8">
                                 <div class="btn-group btn-group-justified" data-toggle="buttons">

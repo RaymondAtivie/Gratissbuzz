@@ -15,3 +15,6 @@ Route::any('advert/adgolive/{ad}', 'AdvertController@adGoLive');
 
 Route::any('advert/livepromos', 'AdvertController@showLivePromos');
 Route::any('advert/liveads', 'AdvertController@showLiveAds');
+
+Route::get('advert/standardads', 'AdvertController@standardAds');
+Route::post('advert/newstandardad', 'AdvertController@addStandardAds');

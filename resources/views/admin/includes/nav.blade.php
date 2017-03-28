@@ -12,6 +12,11 @@
     <li>
         <h3 class="navigation-title">Advertisments</h3>
     </li>
+     <li>
+        <a href="{{url('advert/standardads')}}">
+            <i class="fa fa-file-text-o"></i><span>Standard Ads</span>
+        </a>
+    </li>
     <li class="menu-list">
         <a href="">
             <i class="fa fa-file-text-o"></i><span>Cashless Ads</span>
@@ -48,6 +53,7 @@
             <i class="fa fa-question"></i><span>Questions</span>
         </a>
         <ul class="child-list">
+            <li><a href="{{ url('question/addCategory') }}">Add Questions Category</a></li>
             <li><a href="{{ url('question/add') }}">Add Questions</a></li>
             <!-- <li><a href="{{ url('question/allocate') }}">Allocate Questions</a></li> -->
             <li><a href="{{ url('question/list') }}">All Questions</a></li>

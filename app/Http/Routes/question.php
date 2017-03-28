@@ -1,8 +1,12 @@
 <?php
 
 Route::get('question/add', 'QuestionController@add');
+Route::get('question/addCategory', 'QuestionController@addCategory');
+Route::post('question/addCategory', 'QuestionController@addNewCategory');
 Route::get('question/allocate', 'QuestionController@allocate');
 Route::get('question/list', 'QuestionController@lists');
+Route::get('question/{question}/delete', 'QuestionController@deleteQuestion');
+Route::post('question/{question}/edit', 'QuestionController@editQuestion');
 
 Route::get('batch/create', 'QuestionController@createBatch');
 Route::get('batch/assign', 'QuestionController@assignBatch');

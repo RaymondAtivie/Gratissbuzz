@@ -95,8 +95,9 @@ class AdvertController extends Controller
 
     public function promoGoLive(Request $request, Promo $promo){
         $input = $request->all();
-        $beginDate = Carbon::createFromFormat("Y-m-d", $input['begin']);
-        $endDate = Carbon::createFromFormat("Y-m-d", $input['end']);
+
+        $beginDate = Carbon::createFromTimestamp(strtotime($input['begin']));
+        $endDate = Carbon::createFromTimestamp(strtotime($input['end']));
 
         $lp = [
             "promo_id" => $promo->id,
@@ -128,8 +129,9 @@ class AdvertController extends Controller
                 $question_id = $input['question_id'];
             }
         }
-        $beginDate = Carbon::createFromFormat("Y-m-d", $input['begin']);
-        $endDate = Carbon::createFromFormat("Y-m-d", $input['end']);
+        
+        $beginDate = Carbon::createFromTimestamp(strtotime($input['begin']));
+        $endDate = Carbon::createFromTimestamp(strtotime($input['end']));
 
         $selection_method = $input['selection_method'];
 
@@ -173,5 +175,30 @@ class AdvertController extends Controller
         ->orderBy("begin", "ASC")->get();
 
         return view("admin.pages.promo.live", compact("lAds"));        
+    }
+
+    public function standardAds(){
+        $sAds = M::getStandardAds();
+
+        return view("admin.pages.advert.standard", compact("sAds"));  
+    }
+
+    public function addStandardAds(Request $request){
+        $post = $request->all();
+
+        $fileName = time().$request->file('image')->getClientOriginalName();
+        
+        $request->file('image')->move("assets/images/ads/", $fileName);
+        
+        $imageUrl = url("assets/images/ads/".$fileName);
+        $link = $post['link'];
+        $beginTimestamp = strtotime($post['begin']);
+        $endTimestamp = strtotime($post['end']);
+
+        $sAds = M::setStandardAds($imageUrl, $link, $beginTimestamp, $endTimestamp);
+
+        M::flash("Successfully added", "success");
+
+        return back();
     }
 }

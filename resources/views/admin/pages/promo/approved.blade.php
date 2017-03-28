@@ -104,7 +104,7 @@
                                                                 <b>Begin</b>
                                                             </div>
                                                             <div class="col-md-8 ">
-                                                                <input class="form-control" required type="date" name="begin" />
+                                                                <input class="form-control" required type="datetime-local" name="begin" />
                                                             </div>
                                                         </div>
                                                         <br />
@@ -113,7 +113,7 @@
                                                                 <b>End</b>
                                                             </div>
                                                             <div class="col-md-8 ">
-                                                                <input class="form-control" required type="date" name="end" />
+                                                                <input class="form-control" required type="datetime-local" name="end" />
                                                             </div>
                                                         </div>
                                                         
