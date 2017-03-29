@@ -88,6 +88,12 @@
                                             <button href="#" class="btn btn-warning" data-toggle="modal" data-target="#sendMessage{{$vendor->id}}">Send Message</button>
                                          </td>
                                     </tr>
+
+
+                                    <!-- Modal -->
+                                    <div class="modal fade" id="sendMessage{{$vendor->id}}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+                                        @include("partials.singleMessageBox", ["user" => $vendor->user])
+                                    </div>
                                     
                                     <!-- Modal -->
                                     <div class="modal fade" id="moreModal{{$vendor->id}}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">

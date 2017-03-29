@@ -80,7 +80,7 @@
         </a>
         <ul class="child-list">
             <li><a href="{{ url('users/messageall') }}">To all Users</a></li>
-            <li><a href="{{ url('question/add') }}">To specific user</a></li>
+            <li><a href="{{ url('users/viewall') }}">To specific user</a></li>
         </ul>
     </li>
 

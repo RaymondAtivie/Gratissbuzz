@@ -90,6 +90,11 @@
                                        -->
                                          </td>
                                     </tr>
+
+                                    <!-- Modal -->
+                                    <div class="modal fade" id="sendMessage{{$user->id}}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+                                        @include("partials.singleMessageBox", ["user" => $user])
+                                    </div>
                                     <?php $i++; ?>
                                 @endforeach
                             </tbody>

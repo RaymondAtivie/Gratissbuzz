@@ -74,8 +74,19 @@ class UserController extends Controller
             // TODO: Send email to everyone too
         }
         
-
         M::flash("successfully sent to everyone", "success");
+
+        return back();
+
+    }
+
+    public function sendMessageToOne(Request $request){
+        $post = $request->all();
+        
+        M::sendMessage($post['title'], $post['message'], $post['type'], $post['user_id']);
+        // TODO: Send email to user too
+        
+        M::flash("Message successfully sent", "success");
 
         return back();
 
