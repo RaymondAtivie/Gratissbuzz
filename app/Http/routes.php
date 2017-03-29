@@ -22,6 +22,7 @@ Route::group([
 
     require_once("Routes/question.php");
     require_once("Routes/adverts.php");
+    require_once("Routes/users.php");
 });
 
 

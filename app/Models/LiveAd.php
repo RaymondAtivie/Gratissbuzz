@@ -8,7 +8,7 @@ class LiveAd extends Model
 {
 	protected $table = 'live_ads';
 	protected $guarded = ['id'];
-	protected $dates = ['begin', 'end'];
+	protected $dates = ['begin', 'end', 'question_begin'];
 
 	public function isLive(){
 		$now = \Carbon\Carbon::now();

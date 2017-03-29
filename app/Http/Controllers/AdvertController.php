@@ -102,6 +102,7 @@ class AdvertController extends Controller
         $lp = [
             "promo_id" => $promo->id,
             "vendor_id" => $promo->vendor->id,
+            "question_begin" => $question_begin,
             "begin" => $beginDate,
             "end" => $endDate,
         ];
@@ -133,6 +134,13 @@ class AdvertController extends Controller
         $beginDate = Carbon::createFromTimestamp(strtotime($input['begin']));
         $endDate = Carbon::createFromTimestamp(strtotime($input['end']));
 
+        $totalSeconds = $beginDate->diffInseconds($endDate);
+        if($totalSeconds % 2 == 1){
+            $totalSeconds++;
+        }
+        $newSeconds = ceil($totalSeconds/2);
+        $question_begin = $beginDate->addSeconds($newSeconds);
+
         $selection_method = $input['selection_method'];
 
         $lp = [
@@ -140,6 +148,7 @@ class AdvertController extends Controller
             "vendor_id" => $ad->vendor->id,
             "question_id" => $question_id,
             "selection_method" => $selection_method,
+            "question_begin" => $question_begin,
             "begin" => $beginDate,
             "end" => $endDate,
         ];

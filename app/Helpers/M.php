@@ -38,6 +38,17 @@ class M
         DB::table('standard_ads')->insert($input);
     }
 
+    static function sendMessage($title, $message, $type, $user_id){
+        $input = [
+            "title"=>$title,
+            "message"=>$message,
+            "type"=> $type,
+            "user_id"=> $user_id
+        ];
+
+        DB::table('admin_messages')->insert($input);
+    }
+
 }
 
 

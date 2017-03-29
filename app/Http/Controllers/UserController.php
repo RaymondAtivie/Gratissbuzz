@@ -6,6 +6,8 @@ use Illuminate\Http\Request;
 
 use App\Http\Requests;
 use App\User;
+use App\Models\Vendor;
+use App\Helpers\M;
 
 use Auth; 
 
@@ -43,5 +45,39 @@ class UserController extends Controller
         $output['message'] = "Successfully logged in";
 
 		return response()->json($output, 201);
+    }
+
+    public function viewAll(){
+        $users = User::get();
+
+        return view("admin.pages.users.viewall", compact("users"));
+    }
+
+    public function viewAllVendors(){
+        $vendors = Vendor::get();
+
+        return view("admin.pages.users.viewallvendors", compact("vendors"));
+    }
+
+    public function messageAll(){
+
+        return view("admin.pages.users.messageall", compact("vendors"));
+    }
+
+    public function sendMessageToAll(Request $request){
+        $post = $request->all();
+
+        $users = User::get();
+
+        foreach($users as $user){
+            M::sendMessage($post['title'], $post['message'], $post['type'], $user->id);
+            // TODO: Send email to everyone too
+        }
+        
+
+        M::flash("successfully sent to everyone", "success");
+
+        return back();
+
     }
 }

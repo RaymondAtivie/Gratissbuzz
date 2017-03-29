@@ -66,7 +66,9 @@
                                 @foreach($lAds as $la)
                                     <tr>
                                         <td>
-                                            {{$la->ad->vendor->name}}
+                                            <button class="btn btn-link" data-toggle="modal" data-target="#vendorModal{{$la->ad->vendor->id}}">
+                                                {{$la->ad->vendor->name}}
+                                            </button>
                                         </td>
                                         <td>
                                             @if($la->isLive())
@@ -99,6 +101,11 @@
                                             </button>
                                         </td>
                                     </tr>
+                                    
+                                    <!-- Modal -->
+                                    <div class="modal fade" id="vendorModal{{$la->ad->vendor->id}}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+                                        @include("partials.vendorBox", ["vendor" => $la->ad->vendor])
+                                    </div>
                                     <!-- GO LIVE Modal -->
                                     <div class="modal fade" id="liveDetails{{$la->id}}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
                                         <div class="modal-dialog" role="document">

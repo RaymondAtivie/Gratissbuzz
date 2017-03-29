@@ -60,6 +60,30 @@
         </ul>
     </li>
 
+    
+    <li>
+        <h3 class="navigation-title">User Management</h3>
+    </li>
+     <li>
+        <a href="{{url('users/viewall')}}">
+            <i class="fa fa-file-text-o"></i><span>View Users</span>
+        </a>
+    </li>
+     <li>
+        <a href="{{url('users/viewvendors')}}">
+            <i class="fa fa-file-text-o"></i><span>View Vendors</span>
+        </a>
+    </li>
+    <li class="menu-list">
+        <a href="">
+            <i class="fa fa-question"></i><span>Send Notifications</span>
+        </a>
+        <ul class="child-list">
+            <li><a href="{{ url('users/messageall') }}">To all Users</a></li>
+            <li><a href="{{ url('question/add') }}">To specific user</a></li>
+        </ul>
+    </li>
+
    <!-- <li class="menu-list">
         <a href="">
             <i class="fa fa-file-text-o"></i><span>Batches</span>

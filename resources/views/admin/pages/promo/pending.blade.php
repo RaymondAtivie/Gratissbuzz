@@ -56,7 +56,9 @@
                                 @foreach($pAds as $a)
                                     <tr>
                                         <td>
-                                            {{$a->vendor->name}}
+                                            <button class="btn btn-link" data-toggle="modal" data-target="#vendorModal{{$a->vendor->id}}">
+                                                {{$a->vendor->name}}
+                                            </button>
                                         </td>
                                         <td data-featherlight="#lightbox{{$a->id}}">
                                             <img src="{{$a->image}}" id="lightbox{{$a->id}}" class="img-responsive" />
@@ -73,6 +75,10 @@
                                             </a>
                                         </td>
                                     </tr>
+                                    <!-- Modal -->
+                                    <div class="modal fade" id="vendorModal{{$a->vendor->id}}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+                                        @include("partials.vendorBox", ["vendor" => $a->vendor])
+                                    </div>
                                 @endforeach
                             </tbody>
                         </table>

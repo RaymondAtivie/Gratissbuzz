@@ -1,14 +1,14 @@
 @extends('layout.default')
 @section('title')
-    Pending Cashless Adverts
+    Add Question
 @stop
 @section('main')
     <!-- Slider -->
     <div class="page-head">
         <h3>
-            Cashless Adverts
+            All Users
         </h3>
-        <span class="sub-title">Pending Approval</span>
+        <span class="sub-title">A List of all Users</span>
     </div>
     <style>
     textarea{
@@ -17,84 +17,80 @@
     </style>
 
     <div class="wrapper" ng-app="gratisApp">
-    
-        <div class="row">
-            <div class="col-md-12">
-                @include("partials/flash")
-            </div>
-        </div>
-        
         <div class="row" ng-controller="qCtrl as Q">
+           
+        <div class="col-md-12">
+            @include("partials/flash")
+        </div> 
 
             <div class="col-md-12">
                 <section class="panel">
                     <header class="panel-heading">
-                        Advert List
+                        Users List
                     </header>
                     <div class="panel-body">
                         <table class="table convert-data-table data-table"  id="sample_1">
                             <thead>
                                 <tr>
                                     <th>
-                                        Vendor
+                                        S/N
+                                    </th>
+                                    <th class="col-sm-1">
+                                        Picture
                                     </th>
                                     <th>
-                                        Description
+                                        Name
                                     </th>
                                     <th>
-                                        Incentive
+                                        Email / Phone
                                     </th>
                                     <th>
-                                        Incentive Amt
+                                        Location
                                     </th>
                                     <th>
-                                        Random / First
+                                        Sex
+                                    </th>
+                                    <th class="col-sm-2">
+                                        Vendors
                                     </th>
                                     <th>
-                                        Created
-                                    </th>
-                                    <th>
-                                        Action
+                                        Actions
                                     </th>
                                 </tr>
                             </thead>
                             <tbody>
-                                @foreach($pAds as $a)
+                            <?php $i=0; ?>
+                                @foreach($users as $user)
                                     <tr>
                                         <td>
-                                            <button class="btn btn-link" data-toggle="modal" data-target="#vendorModal{{$a->vendor->id}}">
-                                                {{$a->vendor->name}}
-                                            </button>
+                                            {{$i+1}}
+                                        </td>
+                                        <td style="text-align: center">
+                                            <img src="{{$user->image}}" style="margin: auto" class="img-responsive img-circle" />
                                         </td>
                                         <td>
-                                            <small>{{$a->description}}</small>
+                                            {{$user->name}}
                                         </td>
                                         <td>
-                                            {{$a->incentive}}
+                                            {{$user->email}} <br /> {{$user->phone}}
                                         </td>
                                         <td>
-                                            {{number_format($a->incentive_amt)}}
+                                            {{$user->location}}
                                         </td>
                                         <td>
-                                            {{$a->selection_method}}
+                                            {{$user->gender}}
                                         </td>
                                         <td>
-                                            {{$a->created_at->diffForHumans()}}
+                                            <small>{{implode(", ", $user->vendor->lists('name')->toArray() )}}</small>
                                         </td>
-                                        <td style="text-align: right">
-                                            <a href="{{url('advert/approve/'.$a->id)}}" class="btn btn-success btn-sm">
-                                                <i class="fa fa-check"></i> Approve
-                                            </a>
-                                            <button class="btn btn-danger btn-sm">
-                                                <i class="fa fa-close"></i> Cancel
-                                            </button>
-                                        </td>
+                                        <td>
+                                            <button href="#" class="btn btn-warning" data-toggle="modal" data-target="#sendMessage{{$user->id}}">Send Message</button>
+                                        <!--
+                                            <a href="{{url('question/'.$user->id.'/delete')}}" class="btn btn-danger" onclick="return confirm('Are you sure you want to delete this question?')">Delete</a>
+                                       -->
+                                         </td>
                                     </tr>
-                                    
-                                    <!-- Modal -->
-                                    <div class="modal fade" id="vendorModal{{$a->vendor->id}}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-                                        @include("partials.vendorBox", ["vendor" => $a->vendor])
-                                    </div>
+                                    <?php $i++; ?>
                                 @endforeach
                             </tbody>
                         </table>
