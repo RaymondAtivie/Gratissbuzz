@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 
 use App\Http\Requests;
+use App\Helpers\M;
 use App\User;
 use App\Models\Vendor;
 use App\Models\Ad;
@@ -114,5 +115,52 @@ class ApiController extends Controller
         $promo = Promo::create($post);
 
 		return response()->json($promo, 201);        
+    }
+
+    function getUserMessages(Request $request, User $user){
+        $messages = M::getUserMessages($user->id);
+
+		return response()->json($messages, 201); 
+    }
+
+    function getUserMessagesNum(Request $request, User $user){
+        $num = M::getUserMessagesNum($user->id);
+
+		return response()->json($num, 201); 
+    }
+
+    function readMessage($message){
+        $re = M::readMessage($message);
+
+        $output['status'] = $re;
+
+		return response()->json($output, 201);         
+    }
+
+    function submitPromoComment(Request $request, Promo $promo){
+        $post = $request->all();
+
+        $cu = $promo->comments()->create($post);
+
+        $commentUser = User::find($cu->user_id);
+        $cu->user = $commentUser;
+
+        $output = ["status"=>true, "comment"=>$cu];
+
+		return response()->json($output, 201);      
+    }
+
+    function getBusinessCategories(){
+        $bcs = M::getBusinessCategories();
+
+		return response()->json($bcs, 201);              
+    }
+
+    function getStates(){
+        $states = M::getStatesArray();
+
+        // $states = ["ikeja"=>["ss", "ssss"]];
+
+		return response()->json($states, 201);              
     }
 }

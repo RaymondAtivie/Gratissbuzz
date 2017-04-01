@@ -20,7 +20,12 @@ class UserController extends Controller
 
         if (Auth::attempt(['email' => $req->email, 'password' => $req->password])) {
             $output['user'] = Auth::user();
-            $output['user']['vendor'] = $output['user']->vendor;
+
+            if(count($output['user']->vendor) > 0){
+                $output['user']['vendor'] = $output['user']->vendor;
+            }else{
+                $output['user']['vendor'] = [];
+            }
             $output['status'] = "success";
             $output['message'] = "Successfully logged in";
         }else{
@@ -40,6 +45,9 @@ class UserController extends Controller
             'image' => url('assets/images/vendor/unknown.jpg'),
             'email' => $req->email,
             'phone' => $req->phone,
+            'location' => $req->location,
+            'gender' => $req->gender,
+            'status' => $req->status,
             'password' => bcrypt($req->password),
         ]);
         $output['message'] = "Successfully logged in";

@@ -23,6 +23,50 @@ class M
             ]);
     }
 
+    static function getBusinessCategories(){
+         return collect(DB::table('business_category')->get())->lists("name")->toArray();
+    }
+    
+    static function addBusinessCategory($newCat){
+          DB::table("business_category")
+            ->insert([
+                'name'=>$newCat
+            ]);
+    }
+
+    static function getStatesArray(){
+        $all = [];
+        $states = DB::table("states")->get();
+
+        foreach ($states as $state) {
+            $all[$state->name] = collect(DB::table('lga')->where("state_id", $state->id)->get())->lists("name")->toArray();
+        }
+
+        return $all;
+        
+    }
+
+    static function getStates(){
+        $states = DB::table('states')->get();
+
+        return $states;   
+    }
+
+    static function addState($newState){
+          DB::table("states")
+            ->insert([
+                'name'=>$newState
+            ]);
+    }
+
+    static function addLGA($newState, $state_id){
+          DB::table("lga")
+            ->insert([
+                'state_id'=>$state_id,
+                'name'=>$newState
+            ]);
+    }
+
     static function getStandardAds(){
         return DB::table('standard_ads')->get();
     }
@@ -47,6 +91,21 @@ class M
         ];
 
         DB::table('admin_messages')->insert($input);
+    }
+
+    static function getUserMessages($user_id){
+        return DB::table("admin_messages")->where(["user_id" => $user_id])->orderBy("created_at", "DESC")->get();
+    }
+
+    static function getUserMessagesNum($user_id){
+        $totalM = DB::table("admin_messages")->where(["user_id" => $user_id])->count();
+        $unreadM = DB::table("admin_messages")->where(["user_id" => $user_id, "seen"=>"0"])->count();
+
+        return ["total"=>$totalM, "unread"=>$unreadM];
+    }
+
+    static function readMessage($message_id){
+        return DB::table("admin_messages")->where(["id" => $message_id])->update(["seen"=>"1"]);
     }
 
 }

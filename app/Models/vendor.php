@@ -20,7 +20,7 @@ class Vendor extends Model
     }
     public function promos()
     {
-        return $this->hasMany("App\Models\Ad");
+        return $this->hasMany("App\Models\Promo");
     }
     public function liveads()
     {

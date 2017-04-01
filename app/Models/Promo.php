@@ -28,6 +28,6 @@ class Promo extends Model
 
     public function comments()
     {
-        return $this->hasMany("App\Models\PromoComment");
+        return $this->hasMany("App\Models\PromoComment")->orderBy('created_at', "DESC");
     }
 }

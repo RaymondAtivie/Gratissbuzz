@@ -1,8 +1,6 @@
 <?php
 
 Route::get('question/add', 'QuestionController@add');
-Route::get('question/addCategory', 'QuestionController@addCategory');
-Route::post('question/addCategory', 'QuestionController@addNewCategory');
 Route::get('question/allocate', 'QuestionController@allocate');
 Route::get('question/list', 'QuestionController@lists');
 Route::get('question/{question}/delete', 'QuestionController@deleteQuestion');

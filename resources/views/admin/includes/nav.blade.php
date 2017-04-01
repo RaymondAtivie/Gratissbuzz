@@ -84,31 +84,23 @@
         </ul>
     </li>
 
-   <!-- <li class="menu-list">
-        <a href="">
-            <i class="fa fa-file-text-o"></i><span>Batches</span>
-        </a>
-        <ul class="child-list">
-            <li><a href="{{ url('batch/create') }}">Create Batches</a></li>
-            <li><a href="{{ url('batch/assign') }}">Assign Batches</a></li>
-        </ul>
-    </li>
-
     <li>
-        <h3 class="navigation-title">Communication</h3>
+        <h3 class="navigation-title">Settings</h3>
     </li>
-
+     <li>
+        <a href="{{url('settings/questions')}}">
+            <i class="fa fa-file-text-o"></i><span>Question Categories</span>
+        </a>
+    </li>
     <li>
-        <a href="">
-            <i class="fa fa-envelope-o"></i><span>Message All Members</span>
+        <a href="{{url('settings/business')}}">
+            <i class="fa fa-file-text-o"></i><span>Business Categories</span>
         </a>
-        <a href="">
-            <i class="fa fa-envelope-o"></i><span>Message All Vendors</span>
+    </li>
+    <li>
+        <a href="{{url('settings/states')}}">
+            <i class="fa fa-file-text-o"></i><span>Local Government And States</span>
         </a>
-        <a href="">
-            <i class="fa fa-envelope-o"></i><span>Message an Indiviual</span>
-        </a>
-    </li> -->
-
+    </li>
 
 </ul>

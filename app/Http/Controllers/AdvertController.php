@@ -102,7 +102,6 @@ class AdvertController extends Controller
         $lp = [
             "promo_id" => $promo->id,
             "vendor_id" => $promo->vendor->id,
-            "question_begin" => $question_begin,
             "begin" => $beginDate,
             "end" => $endDate,
         ];
