@@ -122,6 +122,8 @@ class AdvertController extends Controller
     public function adGoLive(Request $request, Ad $ad){
         $input = $request->all();
 
+        $batch = Batch::find($input['batch_id']);
+
         if($input['question'] == 'random'){
             $question_id = Question::inRandomOrder()->first()->id;
         }else{
@@ -131,10 +133,21 @@ class AdvertController extends Controller
                 $question_id = $input['question_id'];
             }
         }
-        
-        $beginDate = Carbon::createFromTimestamp(strtotime($input['begin']));
-        $fakeBeginDate = Carbon::createFromTimestamp(strtotime($input['begin']));
-        $endDate = Carbon::createFromTimestamp(strtotime($input['end']));
+
+        $last_time_today =  Carbon::createFromFormat("Y-m-d H:i:s", date("Y-m-d", strtotime($batch->last_ad_end))." ".date("H:i:s", strtotime($batch->day_end_time)));
+
+        //if the last ad date is greater than the time 
+        if($batch->last_ad_end->gt($last_time_today)){
+            $first_time_tomorrow =  Carbon::createFromFormat("Y-m-d H:i:s", date("Y-m-d", strtotime($batch->last_ad_end->addDay()))." ".date("H:i:s", strtotime($batch->day_begin_time)));
+            $last_ad_end = $first_time_tomorrow;
+        }else{
+            $last_ad_end = $batch->last_ad_end;
+        }
+
+        $fakeBeginDate = $last_ad_end;
+
+        $beginDate = $last_ad_end;
+        $endDate = $last_ad_end->addMinutes($batch->minutes_to_show); 
 
         $totalSeconds = $fakeBeginDate->diffInseconds($endDate);
         if($totalSeconds % 2 == 1){
@@ -153,9 +166,13 @@ class AdvertController extends Controller
             "question_begin" => $question_begin,
             "begin" => $beginDate,
             "end" => $endDate,
+            "batch_id" => $batch->id
         ];
 
         $livep = LiveAd::create($lp);
+
+        $batch->last_ad_end = $livep->end;
+        $batch->save();
 
         $message = "The Ad has successfully gone Live. It would show between <b>".
                     $beginDate->format('l jS \\of F Y h:i A') . "</b> and <b>". 
@@ -224,6 +241,8 @@ class AdvertController extends Controller
 
         $post['day_begin_time'] = date("H:i:s", strtotime($post['day_begin_time']));
         $post['day_end_time'] = date("H:i:s", strtotime($post['day_end_time']));
+
+        $post['last_ad_end'] = date("Y-m-d", strtotime($post['day_begin_date']))." ".date("H:i:s", strtotime($post['day_begin_time']));
 
         $batch = \App\Models\Batch::create($post);
 

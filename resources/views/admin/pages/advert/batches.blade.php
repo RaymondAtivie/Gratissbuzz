@@ -125,6 +125,9 @@
                                     <th>
                                         Total Slots
                                     </th>
+                                    {{-- <th>
+                                        Avail Slots
+                                    </th> --}}
                                     <th>
                                         Action
                                     </th>
@@ -153,6 +156,9 @@
                                         <td>
                                             {{$b->slots()}}
                                         </td>
+                                        {{-- <td>
+                                            {{$b->availableSlots()}}
+                                        </td> --}}
                                         <td style="text-align: right">
                                             <button class="btn btn-danger btn-sm">
                                                 <i class="fa fa-close"></i> Remove

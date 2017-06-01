@@ -150,7 +150,7 @@
                                                         </div>
                                                         <br />
 
-                                                        <div class="row">
+                                                        {{-- <div class="row">
                                                             <div class="col-md-2 col-md-offset-1">
                                                                 <b>Begin</b>
                                                             </div>
@@ -166,8 +166,8 @@
                                                             <div class="col-md-8 ">
                                                                 <input class="form-control" required type="datetime-local" name="end" />
                                                             </div>
-                                                        </div>
-                                                        <br />
+                                                        </div> --}}
+                                                        {{-- <br /> --}}
                                                         <div class="row">
                                                             <div class="col-md-2 col-md-offset-1">
                                                                 <b>Question</b>
