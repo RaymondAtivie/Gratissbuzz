@@ -22,6 +22,7 @@
             <i class="fa fa-file-text-o"></i><span>Cashless Ads</span>
         </a>
         <ul class="child-list">
+            <li><a href="{{ url('advert/batches') }}">Batches</a></li>
             <li><a href="{{ url('advert/pendingAds') }}">Pending Approval</a></li>
             <li><a href="{{ url('advert/approvedAds') }}">Approved</a></li>
             <li><a href="{{ url('advert/liveads') }}">Live Ads</a></li>

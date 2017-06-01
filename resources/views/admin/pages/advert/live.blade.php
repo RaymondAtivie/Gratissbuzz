@@ -49,10 +49,13 @@
                                         Description
                                     </th>
                                     <th>
-                                        Begin
+                                        Ad Begin
                                     </th>
                                     <th>
-                                        End
+                                        Question Begin
+                                    </th>
+                                    <th>
+                                        Ad End
                                     </th>
                                     <th>
                                         Created
@@ -85,6 +88,9 @@
                                         </td>
                                         <td title="{{$la->begin->format('d/m/Y h:i a')}}">
                                             {{$la->begin->diffForHumans()}}
+                                        </td>
+                                        <td title="{{$la->question_begin->format('d/m/Y h:i a')}}">
+                                            {{$la->question_begin->diffForHumans()}}
                                         </td>
                                         <td title="{{$la->end->format('d/m/Y h:i a')}}">
                                             {{$la->end->diffForHumans()}}

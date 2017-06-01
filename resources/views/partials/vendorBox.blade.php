@@ -27,9 +27,9 @@
             </div>
             <hr />
 
-            <h4>Vendor Details</h4>
+            <h4>Company Details</h4>
             <div class="row">
-                <div class="col-md-3"><b>Name</b></div>
+                <div class="col-md-3"><b>Company Name</b></div>
                 <div class="col-md-9">{{$vendor->name}}</div>
             </div>
             <hr />

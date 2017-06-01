@@ -37,10 +37,13 @@
                             <thead>
                                 <tr>
                                     <th>
-                                        Vendor
+                                        Company Name
+                                    </th>
+                                    <th class="col-md-1">
+                                        Image
                                     </th>
                                     <th class="col-md-2">
-                                        Image
+                                        Promo Title
                                     </th>
                                     <th>
                                         Description
@@ -63,6 +66,9 @@
                                         </td>
                                         <td data-featherlight="#lightbox{{$a->id}}">
                                             <img src="{{$a->image}}" id="lightbox{{$a->id}}" class="img-responsive" />
+                                        </td>
+                                        <td>
+                                            {{$a->short_description}}
                                         </td>
                                         <td>
                                             <small>{{$a->description}}</small>

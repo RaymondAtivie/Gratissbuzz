@@ -18,6 +18,7 @@ use App\Models\Promo;
 use App\Models\LivePromo;
 use App\Models\LiveAd;
 use App\Models\Question;
+use App\Models\Batch;
 
 class AdvertController extends Controller
 {
@@ -41,8 +42,9 @@ class AdvertController extends Controller
     public function showApprovedAds(){
         $aAds = Ad::approved()->get();
         $questions = Question::get();
+        $batches = Batch::get();
 
-        return view("admin.pages.advert.approved", compact("aAds", "questions"));
+        return view("admin.pages.advert.approved", compact("aAds", "questions", "batches"));
     }
 
     public function approveAd(Request $request, Ad $ad){
@@ -131,14 +133,15 @@ class AdvertController extends Controller
         }
         
         $beginDate = Carbon::createFromTimestamp(strtotime($input['begin']));
+        $fakeBeginDate = Carbon::createFromTimestamp(strtotime($input['begin']));
         $endDate = Carbon::createFromTimestamp(strtotime($input['end']));
 
-        $totalSeconds = $beginDate->diffInseconds($endDate);
+        $totalSeconds = $fakeBeginDate->diffInseconds($endDate);
         if($totalSeconds % 2 == 1){
             $totalSeconds++;
         }
         $newSeconds = ceil($totalSeconds/2);
-        $question_begin = $beginDate->addSeconds($newSeconds);
+        $question_begin = $fakeBeginDate->addSeconds($newSeconds);
 
         $selection_method = $input['selection_method'];
 
@@ -206,6 +209,25 @@ class AdvertController extends Controller
         $sAds = M::setStandardAds($imageUrl, $link, $beginTimestamp, $endTimestamp);
 
         M::flash("Successfully added", "success");
+
+        return back();
+    }
+
+    public function showBatches(){
+        $batches = \App\Models\Batch::get();
+
+        return view("admin.pages.advert.batches", compact("batches"));  
+    }
+
+    public function addBatch(Request $request){
+        $post = $request->all();
+
+        $post['day_begin_time'] = date("H:i:s", strtotime($post['day_begin_time']));
+        $post['day_end_time'] = date("H:i:s", strtotime($post['day_end_time']));
+
+        $batch = \App\Models\Batch::create($post);
+
+        M::flash("Successfully added a new batch", "success");
 
         return back();
     }

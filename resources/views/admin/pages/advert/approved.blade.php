@@ -135,6 +135,21 @@
                                                             </div>
                                                         </div>
                                                         <hr />
+
+                                                        <div class="row">
+                                                            <div class="col-md-2 col-md-offset-1">
+                                                                <b>Batch</b>
+                                                            </div>
+                                                            <div class="col-md-8 ">
+                                                                <select name="batch_id" class="form-control">
+                                                                    @foreach($batches as $b)
+                                                                        <option value="{{$b->id}}">{{$b->name}} | {{$b->minutes_to_show}}mins each ({{$b->day_begin_date->format("d M Y")}} - {{$b->day_end_date->format("d M Y")}})</option>
+                                                                    @endforeach
+                                                                </select>
+                                                            </div>
+                                                        </div>
+                                                        <br />
+
                                                         <div class="row">
                                                             <div class="col-md-2 col-md-offset-1">
                                                                 <b>Begin</b>
