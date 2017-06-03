@@ -160,6 +160,7 @@ class ApiController extends Controller
         $post = $request->all();
 
         $post['vendor_id'] = $vendor->id;
+        $post['image'] = "http://placehold.it/300x150?text=Default%20Image";
         $ad = Ad::create($post);
 
 		return response()->json($ad, 201);        
@@ -172,6 +173,7 @@ class ApiController extends Controller
         $start_date = Carbon::parse($post['startDate']);
         $data['approved'] = 1;
         $data['vendor_id'] = $vendor->id;
+        $post['image'] = "http://placehold.it/300x150?text=Default%20Image";        
 
         $promo = Promo::create($data);
         
