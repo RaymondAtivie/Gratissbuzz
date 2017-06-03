@@ -6,6 +6,8 @@ Route::post('/signupuser', 'UserController@signup');
 
 Route::post('/addvendor/{user}', 'ApiController@addVendor');
 
+Route::post('/livepromos', 'ApiController@getLivePromosSearch');
+
 Route::get('/livepromos', 'ApiController@getLivePromos');
 Route::get('/liveads', 'ApiController@getLiveAds');
 Route::get('/ads', 'ApiController@getStandardAds');

@@ -49,6 +49,44 @@ class ApiController extends Controller
 		
 		return response()->json($promos, 200);
 	}
+
+    public function getLivePromosSearch(Request $request){
+        $post = $request->all();
+
+        $livePromos = LivePromo::
+            where("begin", "<=", $this->now)
+            ->where("end", ">=", $this->now)
+            ->orderBy("created_at", "DESC")        
+            ->with("promo", "promo.vendor", "promo.comments", "promo.comments.user")
+            ->get();
+
+        $newPromos = [];
+        foreach($livePromos as $lp){
+            
+            if($post['category'] != "All"){
+                if($lp->promo->category != $post['category']){
+                    continue;
+                }
+            }
+
+            if($post['lga'] != "All"){
+                if (strpos($lp->promo->location, $post['lga']) === false) {
+                    continue;
+                }
+            }
+
+            if($post['state'] != "All"){
+                if (strpos($lp->promo->location, $post['state']) === false) {
+                    continue;
+                }
+            }
+
+            $newPromos[] = $lp;
+
+        }
+
+		return response()->json($newPromos, 200);
+    }
 	
 	function getLiveAds(){
 		$ads = LiveAd::
