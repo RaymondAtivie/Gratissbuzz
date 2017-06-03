@@ -79,6 +79,13 @@
                 <div class="right-notification">
                     <ul class="notification-menu">
                        <li>
+                            <a href="javascript:;">
+                                <span class="p-10 bg-success pull-right" style="padding: 0px 10px">
+                                    {{Carbon\Carbon::now('Africa/Lagos')->format("d M Y h:i a")}}
+                                </span>
+                            </a>
+                       </li>
+                       <li>
                             <a href="javascript:;" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
                                 <img src="{{ url('/assets/admin/img/avatar-mini.jpg') }}" alt=""> {{ Auth::guard('admin')->user()->name }}
                                 <span class=" fa fa-angle-down"></span>

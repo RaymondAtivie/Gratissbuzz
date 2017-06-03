@@ -11,7 +11,7 @@ class LivePromo extends Model
 	protected $dates = ['begin', 'end'];
 	
 	public function isLive(){
-		$now = \Carbon\Carbon::now();
+		$now = \Carbon\Carbon::now('Africa/Lagos');
 
 		// echo $this->id;
 		// dd($this->begin->lte($now));

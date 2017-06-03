@@ -51,7 +51,7 @@
                                         Sex
                                     </th>
                                     <th class="col-sm-2">
-                                        Vendors
+                                        Companies
                                     </th>
                                     <th>
                                         Actions

@@ -72,7 +72,7 @@
     </li>
      <li>
         <a href="{{url('users/viewvendors')}}">
-            <i class="fa fa-file-text-o"></i><span>View Vendors</span>
+            <i class="fa fa-file-text-o"></i><span>View Companies</span>
         </a>
     </li>
     <li class="menu-list">

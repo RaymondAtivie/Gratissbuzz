@@ -34,7 +34,7 @@ class AdvertController extends Controller
     }
 
     public function pendingAds(){
-        $pAds = Ad::approved(false)->get();        
+        $pAds = Ad::approved(false)->get();     
         
         return view("admin.pages.advert.pending", compact("pAds"));
     }
@@ -42,7 +42,7 @@ class AdvertController extends Controller
     public function showApprovedAds(){
         $aAds = Ad::approved()->get();
         $questions = Question::get();
-        $batches = Batch::get();
+        $batches = Batch::orderBy("created_at", "DESC")->get();
 
         return view("admin.pages.advert.approved", compact("aAds", "questions", "batches"));
     }
@@ -98,8 +98,8 @@ class AdvertController extends Controller
     public function promoGoLive(Request $request, Promo $promo){
         $input = $request->all();
 
-        $beginDate = Carbon::createFromTimestamp(strtotime($input['begin']));
-        $endDate = Carbon::createFromTimestamp(strtotime($input['end']));
+        $beginDate = Carbon::createFromTimestamp(strtotime($input['begin']), 'Africa/Lagos');
+        $endDate = Carbon::createFromTimestamp(strtotime($input['end']), 'Africa/Lagos');
 
         $lp = [
             "promo_id" => $promo->id,
@@ -124,6 +124,12 @@ class AdvertController extends Controller
 
         $batch = Batch::find($input['batch_id']);
 
+        if(count($batch->liveAds) >= $batch->slots()){
+             M::flash("Cannot add this ad to batch because, <b>this batch is full</b>", "danger");
+
+            return Redirect::back();
+        }
+
         if($input['question'] == 'random'){
             $question_id = Question::inRandomOrder()->first()->id;
         }else{
@@ -134,19 +140,18 @@ class AdvertController extends Controller
             }
         }
 
-        $last_time_today =  Carbon::createFromFormat("Y-m-d H:i:s", date("Y-m-d", strtotime($batch->last_ad_end))." ".date("H:i:s", strtotime($batch->day_end_time)));
+        $last_time_today =  Carbon::createFromFormat("Y-m-d H:i:s", date("Y-m-d", strtotime($batch->last_ad_end))." ".date("H:i:s", strtotime($batch->day_end_time)), 'Africa/Lagos');
 
         //if the last ad date is greater than the time 
-        if($batch->last_ad_end->gt($last_time_today)){
-            $first_time_tomorrow =  Carbon::createFromFormat("Y-m-d H:i:s", date("Y-m-d", strtotime($batch->last_ad_end->addDay()))." ".date("H:i:s", strtotime($batch->day_begin_time)));
+        if($batch->last_ad_end->gte($last_time_today)){
+            $first_time_tomorrow =  Carbon::createFromFormat("Y-m-d H:i:s", date("Y-m-d", strtotime($batch->last_ad_end->addDay()))." ".date("H:i:s", strtotime($batch->day_begin_time)), 'Africa/Lagos');
             $last_ad_end = $first_time_tomorrow;
         }else{
             $last_ad_end = $batch->last_ad_end;
         }
 
-        $fakeBeginDate = $last_ad_end;
-
-        $beginDate = $last_ad_end;
+        $fakeBeginDate = clone $last_ad_end;
+        $beginDate = clone $last_ad_end;
         $endDate = $last_ad_end->addMinutes($batch->minutes_to_show); 
 
         $totalSeconds = $fakeBeginDate->diffInseconds($endDate);
@@ -184,18 +189,36 @@ class AdvertController extends Controller
     }
 
     public function showLiveAds(Request $request){
-		$now = \Carbon\Carbon::now();
+		
+        $now = \Carbon\Carbon::now('Africa/Lagos');
 		$startOfDay = $now->startOfDay();
 		$endOfDay = $now->startOfDay();
 
         $lAds = LiveAd::whereDate("end", ">=", $now)
         ->orderBy("begin", "ASC")->get();
+        // $lAds = LiveAd::get();
 
         return view("admin.pages.advert.live", compact("lAds"));        
     }
+
+    public function removeLiveAd(LiveAd $livead){
+        $livead->delete();
+
+         M::flash("Successfully removed", "success");
+
+        return back();
+    }
+
+    public function removeLivePromo(LivePromo $livepromo){
+        $livepromo->delete();
+
+         M::flash("Successfully removed", "success");
+
+        return back();
+    }
     
     public function showLivePromos(Request $request){
-		$now = \Carbon\Carbon::now();
+		$now = \Carbon\Carbon::now('Africa/Lagos');
 		$startOfDay = $now->startOfDay();
 		$endOfDay = $now->startOfDay();
 
@@ -236,8 +259,34 @@ class AdvertController extends Controller
         return view("admin.pages.advert.batches", compact("batches"));  
     }
 
+    public function showBatchAds(Batch $batch){
+        
+        return view("admin.pages.batch.batchAds", compact("batch"));  
+    }
+
+    public function removeBatch(Batch $batch){
+        $bname = $batch->name;
+        foreach($batch->liveAds as $la){
+            $la->delete();
+        }
+        $batch->delete();
+
+        M::flash("Successfully deleted Batch <b>$bname</b> and all its ads", "success");
+
+        return back();
+    }
+
     public function addBatch(Request $request){
         $post = $request->all();
+
+        $day_begin = Carbon::createFromFormat("Y-m-d", $post['day_begin_date'], 'Africa/Lagos');
+        $day_end = Carbon::createFromFormat("Y-m-d", $post['day_end_date'], 'Africa/Lagos');
+
+        if($day_end->lt($day_begin)){
+             M::flash("The <b>end date</b> must be greater than the <b>begin date</b>", "danger");
+
+            return back();
+        }
 
         $post['day_begin_time'] = date("H:i:s", strtotime($post['day_begin_time']));
         $post['day_end_time'] = date("H:i:s", strtotime($post['day_end_time']));

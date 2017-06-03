@@ -74,7 +74,7 @@
                                 <tr>
                                     <th></th>
                                     <th>
-                                        Vendor
+                                        Company
                                     </th>
                                     <th>
                                         Question

@@ -11,7 +11,7 @@ class LiveAd extends Model
 	protected $dates = ['begin', 'end', 'question_begin'];
 
 	public function isLive(){
-		$now = \Carbon\Carbon::now();
+		$now = \Carbon\Carbon::now('Africa/Lagos');
 
 		// echo $this->id;
 		// dd($this->begin->lte($now));
@@ -34,5 +34,9 @@ class LiveAd extends Model
 	
 	public function vendor(){
 		return $this->belongsTo("App\Models\Vendor");
+	}
+
+	public function batch(){
+		return $this->belongsTo("App\Models\Batch");
 	}
 }

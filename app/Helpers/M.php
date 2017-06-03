@@ -75,8 +75,8 @@ class M
         $input = [
             "image"=>$imageUrl,
             "link"=>$link,
-            "begin"=> Carbon::createFromTimestamp($beginTimestamp),
-            "end"=> Carbon::createFromTimestamp($endTimestamp)
+            "begin"=> Carbon::createFromTimestamp($beginTimestamp, 'Africa/Lagos'),
+            "end"=> Carbon::createFromTimestamp($endTimestamp, 'Africa/Lagos')
         ];
 
         DB::table('standard_ads')->insert($input);

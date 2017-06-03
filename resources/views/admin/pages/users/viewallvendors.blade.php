@@ -6,9 +6,9 @@
     <!-- Slider -->
     <div class="page-head">
         <h3>
-            All Vendors
+            All Companies
         </h3>
-        <span class="sub-title">A list of all Vendors</span>
+        <span class="sub-title">A list of all Companies</span>
     </div>
     <style>
     textarea{
@@ -26,7 +26,7 @@
             <div class="col-md-12">
                 <section class="panel">
                     <header class="panel-heading">
-                        Vendors List
+                        Companies List
                     </header>
                     <div class="panel-body">
                         <table class="table convert-data-table data-table"  id="sample_1">

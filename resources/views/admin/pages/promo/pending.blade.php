@@ -36,7 +36,7 @@
                             <thead>
                                 <tr>
                                     <th>
-                                        Vendor
+                                        Company
                                     </th>
                                     <th class="col-md-2">
                                         Image

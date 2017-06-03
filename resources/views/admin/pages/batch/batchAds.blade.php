@@ -1,15 +1,20 @@
 @extends('layout.default')
 @section('title')
-    Approved Promos
+    Batch - {{$batch->name}}
 @stop
 @section('main')
     <link href="//cdn.rawgit.com/noelboss/featherlight/1.7.1/release/featherlight.min.css" type="text/css" rel="stylesheet" />
     <!-- Slider -->
     <div class="page-head">
         <h3>
-            Promos
+            Batch - {{$batch->name}} Ads
         </h3>
-        <span class="sub-title">Live Promos</span>
+        <span class="sub-title">
+            Runs from <b>{{$batch->day_begin_date->format("d M Y")}}</b> to <b>{{$batch->day_end_date->format("d M Y")}}</b><br />
+            Withing the hours of <b>{{date("h:ia", strtotime($batch->day_begin_time))}}</b> to <b>{{date("h:ia", strtotime($batch->day_end_time))}}</b><br />
+            Total Possible Ads: <b>{{$batch->slots()}}</b><br />
+            Total Ads Now: <b>{{count($batch->liveads)}}</b>
+        </span>
     </div>
     <style>
     textarea{
@@ -30,7 +35,7 @@
             <div class="col-md-12">
                 <section class="panel">
                     <header class="panel-heading">
-                        Promo List
+                        "{{$batch->name}}" Batch List of Ads
                     </header>
                     <div class="panel-body">
                         <table class="table convert-data-table data-table"  id="sample_1">
@@ -49,10 +54,13 @@
                                         Description
                                     </th>
                                     <th>
-                                        Begin
+                                        Ad Begin
                                     </th>
                                     <th>
-                                        End
+                                        Question Begin
+                                    </th>
+                                    <th>
+                                        Ad End
                                     </th>
                                     <th>
                                         Created
@@ -63,11 +71,11 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                @foreach($lAds as $la)
+                                @foreach($batch->liveAds as $la)
                                     <tr>
                                         <td>
-                                             <button class="btn btn-link" data-toggle="modal" data-target="#vendorModal{{$la->promo->vendor->id}}">
-                                                {{$la->promo->vendor->name}}
+                                            <button class="btn btn-link" data-toggle="modal" data-target="#vendorModal{{$la->ad->vendor->id}}">
+                                                {{$la->ad->vendor->name}}
                                             </button>
                                         </td>
                                         <td>
@@ -77,35 +85,40 @@
                                                 <i class="fa fa-circle" style="color: yellow"></i>
                                             @endif
                                         </td>
-                                        <td data-featherlight="#lightbox{{$la->promo->id}}">
-                                            <img src="{{$la->promo->image}}" id="lightbox{{$la->promo->id}}" class="img-responsive" />
+                                        <td data-featherlight="#lightbox{{$la->ad->id}}">
+                                            <img src="{{$la->ad->image}}" id="lightbox{{$la->ad->id}}" class="img-responsive" />
                                         </td>
                                         <td>
-                                            <small>{{$la->promo->description}}</small>
+                                            <small>{{$la->ad->description}}</small>
                                         </td>
                                         <td title="{{$la->begin->format('d M Y h:ia')}}">
                                             <small>{{$la->begin->format('d M Y h:ia')}}<br />
                                             {{$la->begin->diffForHumans()}}</small>
+                                        </td>
+                                        <td title="{{$la->question_begin->format('d M Y h:ia')}}">
+                                            <small>{{$la->question_begin->format('d M Y h:ia')}}<br />
+                                            {{$la->question_begin->diffForHumans()}}</small>
                                         </td>
                                         <td title="{{$la->end->format('d M Y h:ia')}}">
                                             <small>{{$la->end->format('d M Y h:ia')}}<br />
                                             {{$la->end->diffForHumans()}}</small>
                                         </td>
                                         <td>
-                                            {{$la->promo->created_at->diffForHumans()}}
+                                            {{$la->ad->created_at->diffForHumans()}}
                                         </td>
                                         <td style="text-align: right">
                                              <button class="btn btn-info btn-sm" data-toggle="modal" data-target="#liveDetails{{$la->id}}">
                                                 <i class="fa fa-info-circle"></i> &nbsp; Details
                                             </button>
-                                             <a href="{{url('advert/livepromos/remove/'.$la->id)}}" onclick="return confirm('Are you sure you want to remove this Live Promo?')" class="btn btn-danger btn-sm">
+                                             <a href="{{url('advert/liveads/remove/'.$la->id)}}" onclick="return confirm('Are you sure you want to remove this Live Ad?')" class="btn btn-danger btn-sm">
                                                 <i class="fa fa-close"></i> &nbsp; Remove
                                             </a>
                                         </td>
                                     </tr>
+                                    
                                     <!-- Modal -->
-                                    <div class="modal fade" id="vendorModal{{$la->promo->vendor->id}}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-                                        @include("partials.vendorBox", ["vendor" => $la->promo->vendor])
+                                    <div class="modal fade" id="vendorModal{{$la->ad->vendor->id}}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+                                        @include("partials.vendorBox", ["vendor" => $la->ad->vendor])
                                     </div>
                                     <!-- GO LIVE Modal -->
                                     <div class="modal fade" id="liveDetails{{$la->id}}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
@@ -113,44 +126,64 @@
                                             <div class="modal-content">
                                                 <div class="modal-header">
                                                     <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                                                    <h4 class="modal-title" id="myModalLabel">{{$la->promo->vendor->name}}'s Promo</h4>
+                                                    <h4 class="modal-title" id="myModalLabel">{{$la->ad->vendor->name}}'s Promo</h4>
                                                 </div>
-                                                <form action="{{url('advert/adgolive/'.$la->promo->id)}}" method="POST">
-                                                    <input type="hidden" name="selection_method" value="{{$la->promo->selection_method}}" />
+                                                <form action="{{url('advert/adgolive/'.$la->ad->id)}}" method="POST">
+                                                    <input type="hidden" name="selection_method" value="{{$la->ad->selection_method}}" />
                                                     <div class="modal-body">
                                                         <div class="row">
                                                             <div class="col-md-10 col-md-offset-1">
-                                                                <img class="img-responsive" src="{{$la->promo->image}}" />
+                                                                <img class="img-responsive" src="{{$la->ad->image}}" />
                                                             </div>
                                                         </div>
                                                         <br />
                                                         <div class="row">
                                                             <div class="col-md-10 col-md-offset-1">
-                                                                <p>{{$la->promo->description}}</p>
+                                                                <p>{{$la->ad->description}}</p>
                                                             </div>
                                                         </div>
                                                         <div class="row">
-                                                            <div class="col-md-2 col-md-offset-1">
-                                                                <b>Begin</b>
+                                                            <div class="col-md-1 col-md-offset-1">
+                                                                <p><b>Incentive</b></p>
                                                             </div>
-                                                            <div class="col-md-8 ">
-                                                                {{$la->begin->format('d M Y h:ia')}}
-                                                            </div>
-                                                        </div>
-                                                        <br />
-                                                        <div class="row">
-                                                            <div class="col-md-2 col-md-offset-1">
-                                                                <b>End</b>
-                                                            </div>
-                                                            <div class="col-md-8 ">
-                                                                {{$la->end->format('d M Y h:ia')}}
+                                                            <div class="col-md-9 col-md-offset-1">
+                                                                <p>{{$la->ad->incentive}}</p>
+                                                                <p>(Worth: N{{number_format($la->ad->incentive_amt)}})</p>
                                                             </div>
                                                         </div>
                                                         
+                                                        <div class="row">
+                                                            <div class="col-md-1 col-md-offset-1">
+                                                                <p><b>Question</b></p>
+                                                            </div>
+                                                            <div class="col-md-9 col-md-offset-1">
+                                                                <p>{{$la->question->question}}</p>
+                                                            </div>
+                                                        </div>
+                                                        
+                                                        
+                                                        <div class="row">
+                                                            <div class="col-md-1 col-md-offset-1">
+                                                                <p><b>Begin</b></p>
+                                                            </div>
+                                                            <div class="col-md-9 col-md-offset-1">
+                                                                <p>{{$la->begin->format('d M Y h:ia')}}</p>
+                                                            </div>
+                                                        </div>
+                                                        
+                                                        
+                                                        <div class="row">
+                                                            <div class="col-md-1 col-md-offset-1">
+                                                                <p><b>End</b></p>
+                                                            </div>
+                                                            <div class="col-md-9 col-md-offset-1">
+                                                                <p>{{$la->end->format('d M Y h:ia')}}</p>
+                                                            </div>
+                                                        </div>
                                                     </div>
                                                     <div class="modal-footer">
                                                         <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                                                        <button type="submit" class="btn btn-danger">Remove from Live!!!</button>
+                                                        <button type="submit" class="btn btn-danger">Remove From Live!</button>
                                                     </div>
                                                 </form>
                                             </div>

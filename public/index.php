@@ -6,6 +6,7 @@
  * @package  Laravel
  * @author   Taylor Otwell <taylorotwell@gmail.com>
  */
+ date_default_timezone_set('Africa/Lagos');
 
 /*
 |--------------------------------------------------------------------------

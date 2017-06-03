@@ -12,13 +12,15 @@ use App\Models\Ad;
 use App\Models\Promo;
 use App\Models\LiveAd;
 use App\Models\LivePromo;
+use App\Models\Batch;
+use Carbon\Carbon;
 
 class ApiController extends Controller
 {
     private $now;
     
     function __construct(){
-        $this->now = \Carbon\Carbon::now()->addHour(1);
+        $this->now = \Carbon\Carbon::now("Africa/Lagos");
     }
 
 	function getUsers(){
@@ -38,9 +40,10 @@ class ApiController extends Controller
     }
 	
 	function getLivePromos(){
-		$promos = \App\Models\LivePromo::
-            whereDate("begin", "<=", $this->now)
-            ->whereDate("end", ">=", $this->now)
+		$promos = LivePromo::
+            where("begin", "<=", $this->now)
+            ->where("end", ">=", $this->now)
+            ->orderBy("created_at", "DESC")
             ->with("promo", "promo.vendor", "promo.comments", "promo.comments.user")
             ->get();
 		
@@ -48,13 +51,29 @@ class ApiController extends Controller
 	}
 	
 	function getLiveAds(){
-		$ads = \App\Models\LiveAd::
-            whereDate("begin", "<=", $this->now)
-            ->whereDate("end", ">=", $this->now)
+		$ads = LiveAd::
+            where("begin", "<=", $this->now)
+            ->where("end", ">=", $this->now)
             ->with("ad", "ad.vendor", "question")
             ->get();
+
+        $batches = Batch::
+            whereDate("day_begin_date", "<=", $this->now)
+            ->whereDate("day_end_date", ">=", $this->now)
+            ->with("liveads", "liveads.ad", "liveads.ad.vendor", "liveads.question")
+            ->get();            
+
+        $otherAds = collect([]);
+        foreach($batches as $batch){
+            $otherAds = $otherAds->merge($batch->liveads);
+        }
+
+        $payload = [
+            "ads"=>$ads,
+            "batchAds"=>$otherAds
+        ];
 		
-		return response()->json($ads, 200);
+		return response()->json($payload, 200);
 	}
 	
 	function getStandardAds(){
@@ -111,8 +130,24 @@ class ApiController extends Controller
     function submitPromo(Request $request, Vendor $vendor){
         $post = $request->all();
 
-        $post['vendor_id'] = $vendor->id;
-        $promo = Promo::create($post);
+        $data = $request->only(['description', 'short_description', 'category', 'location']);
+        $start_date = Carbon::parse($post['startDate']);
+        $data['approved'] = 1;
+        $data['vendor_id'] = $vendor->id;
+
+        $promo = Promo::create($data);
+        
+        $fakeStart = clone $start_date;
+        $endDate = clone $fakeStart->addDays(intval($post['length']));
+
+        $lp = [
+            "promo_id" => $promo->id,
+            "vendor_id" => $vendor->id,
+            "begin" => $start_date,
+            "end" => $endDate
+        ];
+
+        $livePromo = LivePromo::create($lp);
 
 		return response()->json($promo, 201);        
     }

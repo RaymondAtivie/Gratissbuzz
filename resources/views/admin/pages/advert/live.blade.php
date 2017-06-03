@@ -37,10 +37,13 @@
                             <thead>
                                 <tr>
                                     <th>
-                                        Vendor
+                                        Company
                                     </th>
                                     <th class="col-md-1">
                                         Live
+                                    </th>
+                                    <th class="col-md-1">
+                                        Batch
                                     </th>
                                     <th class="col-md-1">
                                         Image
@@ -80,31 +83,37 @@
                                                 <i class="fa fa-circle" style="color: yellow"></i>
                                             @endif
                                         </td>
+                                        <td>
+                                           {{$la->batch->name}}
+                                        </td>
                                         <td data-featherlight="#lightbox{{$la->ad->id}}">
                                             <img src="{{$la->ad->image}}" id="lightbox{{$la->ad->id}}" class="img-responsive" />
                                         </td>
                                         <td>
                                             <small>{{$la->ad->description}}</small>
                                         </td>
-                                        <td title="{{$la->begin->format('d/m/Y h:i a')}}">
-                                            {{$la->begin->diffForHumans()}}
+                                        <td title="{{$la->begin->format('d M Y h:ia')}}">
+                                            <small>{{$la->begin->format('d M Y h:ia')}}<br />
+                                            {{$la->begin->diffForHumans()}}</small>
                                         </td>
-                                        <td title="{{$la->question_begin->format('d/m/Y h:i a')}}">
-                                            {{$la->question_begin->diffForHumans()}}
+                                        <td title="{{$la->question_begin->format('d M Y h:ia')}}">
+                                            <small>{{$la->question_begin->format('d M Y h:ia')}}<br />
+                                            {{$la->question_begin->diffForHumans()}}</small>
                                         </td>
-                                        <td title="{{$la->end->format('d/m/Y h:i a')}}">
-                                            {{$la->end->diffForHumans()}}
+                                        <td title="{{$la->end->format('d M Y h:ia')}}">
+                                            <small>{{$la->end->format('d M Y h:ia')}}<br />
+                                            {{$la->end->diffForHumans()}}</small>
                                         </td>
-                                        <td>
-                                            {{$la->ad->created_at->diffForHumans()}}
+                                        <td title="{{$la->created_at->format('d M Y h:ia')}}">
+                                            {{$la->created_at->diffForHumans()}}
                                         </td>
                                         <td style="text-align: right">
                                              <button class="btn btn-info btn-sm" data-toggle="modal" data-target="#liveDetails{{$la->id}}">
                                                 <i class="fa fa-info-circle"></i> &nbsp; Details
                                             </button>
-                                             <button class="btn btn-danger btn-sm" data-toggle="modal" data-target="#golive{{$la->id}}">
+                                             <a href="{{url('advert/liveads/remove/'.$la->id)}}" onclick="return confirm('Are you sure you want to remove this Live Ad?')" class="btn btn-danger btn-sm">
                                                 <i class="fa fa-close"></i> &nbsp; Remove
-                                            </button>
+                                            </a>
                                         </td>
                                     </tr>
                                     
@@ -159,7 +168,7 @@
                                                                 <p><b>Begin</b></p>
                                                             </div>
                                                             <div class="col-md-9 col-md-offset-1">
-                                                                <p>{{$la->begin->format('d/m/Y h:i a')}}</p>
+                                                                <p>{{$la->begin->format('d M Y h:ia')}}</p>
                                                             </div>
                                                         </div>
                                                         
@@ -169,7 +178,7 @@
                                                                 <p><b>End</b></p>
                                                             </div>
                                                             <div class="col-md-9 col-md-offset-1">
-                                                                <p>{{$la->end->format('d/m/Y h:i a')}}</p>
+                                                                <p>{{$la->end->format('d M Y h:ia')}}</p>
                                                             </div>
                                                         </div>
                                                     </div>

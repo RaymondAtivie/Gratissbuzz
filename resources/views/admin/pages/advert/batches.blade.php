@@ -26,7 +26,7 @@
         </div>
         
         <div class="row">
-            <div class="col-md-6 col-md-offset-3">
+            <div class="col-md-12">
             
                 <section class="panel">
                     <header class="panel-heading">
@@ -35,57 +35,60 @@
                     <div class="panel-body">
                         <form action="{{url('advert/newbatch')}}" method="POST" enctype="multipart/form-data">
 
-                            <div class="col-sm-12">
-                                <div class="form-group">
-                                    <h4>Name</h4>
-                                    <input type="text" required name="name" placeholder="e.g BATCH A" class="form-control" />
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <h4>Name</h4>
+                                        <input type="text" required name="name" placeholder="e.g BATCH A" class="form-control" />
+                                    </div>
+                                </div>
+
+                                <div class="col-sm-4">
+                                    <div class="form-group">
+                                        <h4>Begin Date</h4>
+                                        <input type="date" required name="day_begin_date" class="form-control" />
+                                    </div>
+                                </div>
+
+                                <div class="col-sm-4">
+                                    <div class="form-group">
+                                        <h4>Time of Day to Begin</h4>
+                                        <input type="text" required name="day_begin_time" class="timepicker form-control" />
+                                    </div>
                                 </div>
                             </div>
 
-                            <div class="col-sm-12">
-                                <div class="form-group">
-                                    <h4>Begin Date</h4>
-                                    <input type="date" required name="day_begin_date" class="form-control" />
+                            <div class="row">
+                                <div class="col-sm-4">
+                                    <div class="form-group">
+                                        <h4>Minutes for each Ad</h4>
+                                        <select name="minutes_to_show" class="form-control">
+                                            @for($i=10;$i<=60;$i = $i+10)
+                                            <option value="{{$i}}" @if($i==30) selected @endif>{{$i}} mins</option>
+                                            @endfor
+                                        </select>
+                                    </div>
+                                </div>
+
+                                <div class="col-sm-4">
+                                    <div class="form-group">
+                                        <h4>End Date</h4>
+                                        <input type="date" required name="day_end_date" class="form-control" />
+                                    </div>
+                                </div>
+                                <div class="col-sm-4">
+                                    <div class="form-group">
+                                        <h4>Time of Day to End</h4>
+                                        <input type="text" required name="day_end_time" class="timepickerend form-control" />
+                                    </div>
                                 </div>
                             </div>
 
-                            <div class="col-sm-12">
-                                <div class="form-group">
-                                    <h4>End Date</h4>
-                                    <input type="date" required name="day_end_date" class="form-control" />
-                                </div>
-                            </div>
-
-                            <div class="col-sm-12">
-                                <div class="form-group">
-                                    <h4>Minutes for each Ad</h4>
-                                    <select name="minutes_to_show" class="form-control">
-                                        <option value="30">30 mins</option>
-                                        @for($i=5;$i<=60;$i = $i+5)
-                                        <option value="{{$i}}">{{$i}} mins</option>
-                                        @endfor
-                                    </select>
-                                </div>
-                            </div>
-
-                            <div class="col-sm-12">
-                                <div class="form-group">
-                                    <h4>Time of Day to Begin</h4>
-                                    <input type="text" required name="day_begin_time" class="timepicker form-control" />
-                                </div>
-                            </div>
-
-                            <div class="col-sm-12">
-                                <div class="form-group">
-                                    <h4>Time of Day to End</h4>
-                                    <input type="text" required name="day_end_time" class="timepickerend form-control" />
-                                </div>
-                            </div>
-
-
-                            <div class="col-sm-12">
-                                <div class="form-group">
-                                    <input type="submit" value="ADD" class="btn btn-primary" />
+                            <div class="row">
+                                <div class="col-sm-12">
+                                    <div class="form-group">
+                                        <input type="submit" value="ADD" class="btn btn-primary" />
+                                    </div>
                                 </div>
                             </div>
 
@@ -125,9 +128,9 @@
                                     <th>
                                         Total Slots
                                     </th>
-                                    {{-- <th>
-                                        Avail Slots
-                                    </th> --}}
+                                    <th>
+                                        Total Ads
+                                    </th>
                                     <th>
                                         Action
                                     </th>
@@ -156,13 +159,16 @@
                                         <td>
                                             {{$b->slots()}}
                                         </td>
-                                        {{-- <td>
-                                            {{$b->availableSlots()}}
-                                        </td> --}}
+                                        <td>
+                                            {{count($b->liveAds)}}
+                                        </td>
                                         <td style="text-align: right">
-                                            <button class="btn btn-danger btn-sm">
+                                            <a href="{{url('advert/batches/'.$b->id)}}" class="btn btn-info btn-sm">
+                                                <i class="fa fa-info"></i> View Batch Ads
+                                            </a>
+                                            <a href="{{url('advert/batches/'.$b->id.'/remove')}}" onclick="return confirm('This would also remove the ads inside this batch! Do you want to delete?')" class="btn btn-danger btn-sm">
                                                 <i class="fa fa-close"></i> Remove
-                                            </button>
+                                            </a>
                                         </td>
                                     </tr>
                                 @endforeach
@@ -193,7 +199,7 @@
 
         $('.timepicker').timepicker({
             timeFormat: 'h:mm p',
-            interval: 15,
+            interval: 30,
             defaultTime: '7',
             startTime: '06:30',
             dynamic: false,
@@ -203,7 +209,7 @@
 
         $('.timepickerend').timepicker({
             timeFormat: 'h:mm p',
-            interval: 15,
+            interval: 30,
             defaultTime: '17',
             startTime: '16:00',
             dynamic: false,

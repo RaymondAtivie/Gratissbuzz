@@ -94,7 +94,7 @@
 
                                 </th>
                                 <th>
-                                    Vendor Name
+                                    Company Name
                                 </th>
                                 <th>
                                     Incentive
