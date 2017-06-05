@@ -27,6 +27,9 @@ Route::post('/submitpromo/{vendor}', 'ApiController@submitPromo');
 Route::post('/submitpromocomment/{promo}', 'ApiController@submitPromoComment');
 Route::post('/submitadcomment/{ad}', 'ApiController@submitAdComment');
 
+Route::post('/submitpromoshare/{promo}', 'ApiController@submitPromoShare');
+Route::post('/submitadshare/{ad}', 'ApiController@submitAdShare');
+
 Route::post('/submitpromolike/{promo}', 'ApiController@submitPromoLike');
 Route::post('/submitadlike/{ad}', 'ApiController@submitAdLike');
 Route::post('/checkadlike/{ad}', 'ApiController@checkAdLike');

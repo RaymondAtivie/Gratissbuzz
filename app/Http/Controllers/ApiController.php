@@ -248,6 +248,19 @@ class ApiController extends Controller
 		return response()->json($output, 201);      
     }
 
+    function submitPromoShare(Request $request, Promo $promo){
+        $post = $request->all();
+
+        $cu = $promo->shares()->create($post);
+
+        $likeUser = User::find($cu->user_id);
+        $cu->user = $likeUser;
+
+        $output = ["status"=>true, "like"=>$cu];
+
+		return response()->json($output, 201);      
+    }
+
     function submitAdComment(Request $request, Ad $ad){
         $post = $request->all();
 
@@ -265,6 +278,19 @@ class ApiController extends Controller
         $post = $request->all();
 
         $cu = $ad->likes()->create($post);
+
+        $likeUser = User::find($cu->user_id);
+        $cu->user = $likeUser;
+
+        $output = ["status"=>true, "like"=>$cu];
+
+		return response()->json($output, 201);      
+    }
+
+    function submitAdShare(Request $request, Ad $ad){
+        $post = $request->all();
+
+        $cu = $ad->shares()->create($post);
 
         $likeUser = User::find($cu->user_id);
         $cu->user = $likeUser;
