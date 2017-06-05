@@ -97,12 +97,22 @@
                     <div class="panel-body">
                         <div class="col-md-12">
                             @foreach($allStates as $statename => $lgas)
-                                <h3>{{$statename}}</h3>
+                                <h3>
+                                    {{$statename}}
+                                    <small>
+                                        <a href="{{url('settings/removeState/'.$statename)}}"
+                                            onclick="return confirm('Are you sure you want to delete this State: {{$statename}}, and its LGAs?')"
+                                            class="btn btn-danger btn-sm float-right"><i class="fa fa-trash"></i></a>
+                                    </small>
+                                </h3>
                                 <table class="table">
                                     @foreach($lgas as $lga)
                                         <tr>
                                             <td>{{$lga}}</td>
                                             <td style="text-align: right">
+                                                <a href="{{url('settings/removeLGA/'.$lga)}}"
+                                                onclick="return confirm('Are you sure you want to delete this LGA: {{$lga}}')"
+                                                    class="btn btn-danger btn-sm">Remove</a>
                                             </td>
                                         </tr>
                                     @endforeach

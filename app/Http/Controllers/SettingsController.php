@@ -37,10 +37,26 @@ class SettingsController extends Controller
         return back();
     }
 
+    public function removeState($statename){
+        M::removeState($statename);
+
+        M::flash("Successfully removed State", "success");
+
+        return back();
+    }
+
     public function addLga(Request $request){
         M::addLGA($request->name, $request->state_id);
 
         M::flash("Successfully added LGA", "success");
+
+        return back();
+    }
+
+    public function removeLGA($lganame){
+        M::removeLGA($lganame);
+
+        M::flash("Successfully removed LGA", "success");
 
         return back();
     }

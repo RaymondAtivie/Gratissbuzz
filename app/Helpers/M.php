@@ -59,12 +59,28 @@ class M
             ]);
     }
 
+    static function removeState($state){
+          DB::table("states")
+            ->where([
+                'name'=>$state
+            ])
+            ->delete();
+    }
+
     static function addLGA($newState, $state_id){
           DB::table("lga")
             ->insert([
                 'state_id'=>$state_id,
                 'name'=>$newState
             ]);
+    }
+
+    static function removeLGA($lga){
+          DB::table("lga")
+            ->where([
+                'name'=>$lga
+            ])
+            ->delete();
     }
 
     static function getStandardAds(){

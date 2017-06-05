@@ -11,5 +11,8 @@ Route::get('/settings/states', 'SettingsController@states');
 Route::post('/settings/addLga', 'SettingsController@addLga');
 Route::post('/settings/addState', 'SettingsController@addState');
 
+Route::get('/settings/removeState/{statename}', 'SettingsController@removeState');
+Route::get('/settings/removeLGA/{lganame}', 'SettingsController@removeLGA');
+
 
 ?>

@@ -44,7 +44,7 @@ class ApiController extends Controller
             where("begin", "<=", $this->now)
             ->where("end", ">=", $this->now)
             ->orderBy("created_at", "DESC")
-            ->with("promo", "promo.vendor", "promo.comments", "promo.comments.user")
+            ->with("promo.vendor", "promo.comments.user", "promo.likes.user", "promo.shares.user")
             ->get();
 		
 		return response()->json($promos, 200);
@@ -57,7 +57,7 @@ class ApiController extends Controller
             where("begin", "<=", $this->now)
             ->where("end", ">=", $this->now)
             ->orderBy("created_at", "DESC")        
-            ->with("promo", "promo.vendor", "promo.comments", "promo.comments.user")
+            ->with("promo.vendor", "promo.comments.user", "promo.likes.user", "promo.shares.user")
             ->get();
 
         $newPromos = [];
@@ -92,13 +92,23 @@ class ApiController extends Controller
 		$ads = LiveAd::
             where("begin", "<=", $this->now)
             ->where("end", ">=", $this->now)
-            ->with("ad", "ad.vendor", "question")
+            ->with(
+                "ad.vendor", "question", 
+                "ad.comments.user", 
+                "ad.shares.user", 
+                "ad.likes.user"
+            )
             ->get();
 
         $batches = Batch::
             whereDate("day_begin_date", "<=", $this->now)
             ->whereDate("day_end_date", ">=", $this->now)
-            ->with("liveads", "liveads.ad", "liveads.ad.vendor", "liveads.question")
+            ->with(
+                "liveads.ad.vendor", "liveads.question", 
+                "liveads.ad.comments.user", 
+                "liveads.ad.likes.user",
+                "liveads.ad.shares.user"
+            )
             ->get();            
 
         $otherAds = collect([]);
@@ -221,6 +231,45 @@ class ApiController extends Controller
         $cu->user = $commentUser;
 
         $output = ["status"=>true, "comment"=>$cu];
+
+		return response()->json($output, 201);      
+    }
+
+    function submitPromoLike(Request $request, Promo $promo){
+        $post = $request->all();
+
+        $cu = $promo->likes()->create($post);
+
+        $likeUser = User::find($cu->user_id);
+        $cu->user = $likeUser;
+
+        $output = ["status"=>true, "like"=>$cu];
+
+		return response()->json($output, 201);      
+    }
+
+    function submitAdComment(Request $request, Ad $ad){
+        $post = $request->all();
+
+        $cu = $ad->comments()->create($post);
+
+        $commentUser = User::find($cu->user_id);
+        $cu->user = $commentUser;
+
+        $output = ["status"=>true, "comment"=>$cu];
+
+		return response()->json($output, 201);      
+    }
+
+    function submitAdLike(Request $request, Ad $ad){
+        $post = $request->all();
+
+        $cu = $ad->likes()->create($post);
+
+        $likeUser = User::find($cu->user_id);
+        $cu->user = $likeUser;
+
+        $output = ["status"=>true, "like"=>$cu];
 
 		return response()->json($output, 201);      
     }

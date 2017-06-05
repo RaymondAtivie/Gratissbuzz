@@ -25,6 +25,10 @@ Route::post('/submitad/{vendor}', 'ApiController@submitAd');
 Route::post('/submitpromo/{vendor}', 'ApiController@submitPromo');
 
 Route::post('/submitpromocomment/{promo}', 'ApiController@submitPromoComment');
+Route::post('/submitadcomment/{ad}', 'ApiController@submitAdComment');
+
+Route::post('/submitpromolike/{promo}', 'ApiController@submitPromoLike');
+Route::post('/submitadlike/{ad}', 'ApiController@submitAdLike');
 
 Route::get('/getBusinessCategories', 'ApiController@getBusinessCategories');
 Route::get('/getStates', 'ApiController@getStates');

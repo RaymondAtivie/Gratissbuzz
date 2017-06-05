@@ -30,4 +30,14 @@ class Promo extends Model
     {
         return $this->hasMany("App\Models\PromoComment")->orderBy('created_at', "DESC");
     }
+
+    public function likes()
+    {
+        return $this->hasMany("App\Models\PromoLike")->orderBy('created_at', "DESC");
+    }
+
+    public function shares()
+    {
+        return $this->hasMany("App\Models\PromoShare")->orderBy('created_at', "DESC");
+    }
 }

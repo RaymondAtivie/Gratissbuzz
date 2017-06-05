@@ -25,4 +25,19 @@ class Ad extends Model
     {
         return $this->belongsTo("App\Models\Vendor");
     }
+
+    public function comments()
+    {
+        return $this->hasMany("App\Models\AdComment")->orderBy('created_at', "DESC");
+    }
+
+    public function likes()
+    {
+        return $this->hasMany("App\Models\AdLike")->orderBy('created_at', "DESC");
+    }
+
+    public function shares()
+    {
+        return $this->hasMany("App\Models\AdShare")->orderBy('created_at', "DESC");
+    }
 }
