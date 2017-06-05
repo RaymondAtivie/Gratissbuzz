@@ -38,10 +38,14 @@ class Vendor extends Model
 
     //EXTRA ATTRIBUTES
     public function getWebsiteAttribute($value){
-        $scheme = 'http://';
-        
-        return parse_url($value, PHP_URL_SCHEME) === null ?
-            $scheme . $value : $value;
+        if($value){
+            $scheme = 'http://';
+            
+            return parse_url($value, PHP_URL_SCHEME) === null ?
+                $scheme . $value : $value;
+        }else{
+            return false;
+        }
     }
 
     public function getTwitterLinkAttribute($value){

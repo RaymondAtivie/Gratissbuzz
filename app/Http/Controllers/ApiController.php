@@ -274,6 +274,34 @@ class ApiController extends Controller
 		return response()->json($output, 201);      
     }
 
+    function checkAdLike(Request $request, Ad $ad){
+        $post = $request->all();
+
+        $liked = $ad->likes()->where(['user_id' => $post['user_id']])->first();
+
+        if($liked){
+            $output = ["status"=>true, "liked"=>true];
+        }else{
+            $output = ["status"=>true, "liked"=>false];
+        }
+
+		return response()->json($output, 201);      
+    }
+
+    function checkPromoLike(Request $request, Promo $promo){
+        $post = $request->all();
+
+        $liked = $promo->likes()->where(['user_id' => $post['user_id']])->first();
+
+        if($liked){
+            $output = ["status"=>true, "liked"=>true];
+        }else{
+            $output = ["status"=>true, "liked"=>false];
+        }
+
+		return response()->json($output, 201);      
+    }
+
     function getBusinessCategories(){
         $bcs = M::getBusinessCategories();
 

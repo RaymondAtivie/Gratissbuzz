@@ -29,6 +29,8 @@ Route::post('/submitadcomment/{ad}', 'ApiController@submitAdComment');
 
 Route::post('/submitpromolike/{promo}', 'ApiController@submitPromoLike');
 Route::post('/submitadlike/{ad}', 'ApiController@submitAdLike');
+Route::post('/checkadlike/{ad}', 'ApiController@checkAdLike');
+Route::post('/checkpromolike/{promo}', 'ApiController@checkPromoLike');
 
 Route::get('/getBusinessCategories', 'ApiController@getBusinessCategories');
 Route::get('/getStates', 'ApiController@getStates');
