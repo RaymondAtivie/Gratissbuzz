@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class AdsAnswer extends Model
 {
-    protected $table = "ads_answer";
+    protected $table = "ads_answers";
     protected $guarded = ['id'];
     protected $casts = [
         'correct_status' => 'boolean'

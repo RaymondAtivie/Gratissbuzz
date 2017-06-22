@@ -9,6 +9,9 @@ class LiveAd extends Model
 	protected $table = 'live_ads';
 	protected $guarded = ['id'];
 	protected $dates = ['begin', 'end', 'question_begin'];
+    protected $casts = [
+        'winners_done' => 'boolean'
+    ];
 
 	public function isLive(){
 		$now = \Carbon\Carbon::now('Africa/Lagos');
@@ -38,5 +41,9 @@ class LiveAd extends Model
 
 	public function batch(){
 		return $this->belongsTo("App\Models\Batch");
+	}
+
+	public function answers(){
+		return $this->hasMany("App\Models\AdsAnswer");
 	}
 }

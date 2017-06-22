@@ -9,6 +9,7 @@ use App\Helpers\M;
 use App\User;
 use App\Models\Vendor;
 use App\Models\Ad;
+use App\Models\AdsAnswer;
 use App\Models\Promo;
 use App\Models\LiveAd;
 use App\Models\LivePromo;
@@ -87,6 +88,64 @@ class ApiController extends Controller
 
 		return response()->json($newPromos, 200);
     }
+
+    public function getLiveAdsSearch(Request $request){
+        $post = $request->all();
+
+        $ads = LiveAd::
+            where("begin", "<=", $this->now)
+            ->where("end", ">=", $this->now)
+            ->with(
+                "ad.vendor", "question", 
+                "ad.comments.user", 
+                "ad.shares.user", 
+                "ad.likes.user"
+            )
+            ->get();
+
+        $batches = Batch::
+            where("day_begin_date", "<=", $this->now->copy()->endOfDay())
+            ->where("day_end_date", ">=", $this->now->copy()->startOfDay())
+            ->with(
+                "liveads.ad.vendor", "liveads.question", 
+                "liveads.ad.comments.user", 
+                "liveads.ad.likes.user",
+                "liveads.ad.shares.user"
+            )
+            ->get();        
+
+        $otherAds = collect([]);
+        foreach($batches as $batch){
+            $otherAds = $otherAds->merge($batch->liveads);
+        }
+
+        $newAds = [];
+        foreach($otherAds as $la){
+            
+            if($post['category'] != "All"){
+                if($la->ad->category != $post['category']){
+                    continue;
+                }
+            }
+
+            if($post['lga'] != "All"){
+                if (strpos($la->ad->location, $post['lga']) === false) {
+                    continue;
+                }
+            }
+
+            if($post['state'] != "All"){
+                if (strpos($la->ad->location, $post['state']) === false) {
+                    continue;
+                }
+            }
+
+            $newAds[] = $la;
+
+        }
+
+		return response()->json($newAds, 200);
+    }
 	
 	function getLiveAds(){
 		$ads = LiveAd::
@@ -101,15 +160,15 @@ class ApiController extends Controller
             ->get();
 
         $batches = Batch::
-            whereDate("day_begin_date", "<=", $this->now)
-            ->whereDate("day_end_date", ">=", $this->now)
+            where("day_begin_date", "<=", $this->now->copy()->endOfDay())
+            ->where("day_end_date", ">=", $this->now->copy()->startOfDay())
             ->with(
                 "liveads.ad.vendor", "liveads.question", 
                 "liveads.ad.comments.user", 
                 "liveads.ad.likes.user",
                 "liveads.ad.shares.user"
             )
-            ->get();            
+            ->get();        
 
         $otherAds = collect([]);
         foreach($batches as $batch){
@@ -337,8 +396,58 @@ class ApiController extends Controller
     function getStates(){
         $states = M::getStatesArray();
 
-        // $states = ["ikeja"=>["ss", "ssss"]];
-
 		return response()->json($states, 201);              
+    }
+
+    function answerQuestion(Request $request, LiveAd $livead){
+        $post = $request->only(['user_id', 'answer']);
+
+        $AdsAnswers = AdsAnswer::where(["user_id"=>$post['user_id'], "live_ad_id"=>$livead->id])->get();
+
+        if(count($AdsAnswers) > 0){
+            $data = [
+                "success"=>"false",
+                "message"=>"You have already answered this question"
+            ];
+        }else{
+            $aa = new AdsAnswer();
+            $aa->user_id = $post['user_id'];
+            $aa->live_ad_id = $livead->id;
+            $aa->answer = $post['answer'];
+            if($aa->answer == $livead->question->answer){
+                $aa->correct_status = true;
+            }else{
+                $aa->correct_status = false;
+            }
+            $aa->save();
+
+            $data = [
+                "success"=>"true",
+                "message"=>"your answer has been submitted",
+                "data" => $aa
+            ];
+        }
+
+
+        return response()->json($data, 201);    
+    }
+
+    function isQuestionAnswered(Request $request, LiveAd $livead){
+        $post = $request->only(['user_id']);
+
+        $AdsAnswers = AdsAnswer::where(["user_id"=>$post['user_id'], "live_ad_id"=>$livead->id])->get();
+
+        if(count($AdsAnswers) > 0){
+           $d = true;
+        }else{
+            $d =false;
+        }
+
+        $data = [
+            "success"=>true,
+            "data"=>$d
+        ];
+
+        return response()->json($data, 201);    
     }
 }

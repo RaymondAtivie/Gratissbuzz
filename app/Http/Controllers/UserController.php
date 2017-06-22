@@ -44,10 +44,12 @@ class UserController extends Controller
             'name' => $req->name,
             'image' => url('assets/images/vendor/unknown.jpg'),
             'email' => $req->email,
+            'username' => $req->username,
             'phone' => $req->phone,
             'location' => $req->location,
             'gender' => $req->gender,
             'status' => $req->status,
+            'referal' => $this->genReferal(7),
             'password' => bcrypt($req->password),
         ]);
         $output['message'] = "Successfully logged in";
@@ -98,5 +100,17 @@ class UserController extends Controller
 
         return back();
 
+    }
+
+    private function genReferal($random_string_length){
+        $characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
+
+        $string = '';
+        $max = strlen($characters) - 1;
+        for ($i = 0; $i < $random_string_length; $i++) {
+            $string .= $characters[mt_rand(0, $max)];
+        }
+
+        return $string;
     }
 }

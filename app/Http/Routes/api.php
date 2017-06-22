@@ -7,6 +7,7 @@ Route::post('/signupuser', 'UserController@signup');
 Route::post('/addvendor/{user}', 'ApiController@addVendor');
 
 Route::post('/livepromos', 'ApiController@getLivePromosSearch');
+Route::post('/liveads', 'ApiController@getLiveAdsSearch');
 
 Route::get('/livepromos', 'ApiController@getLivePromos');
 Route::get('/liveads', 'ApiController@getLiveAds');
@@ -37,3 +38,9 @@ Route::post('/checkpromolike/{promo}', 'ApiController@checkPromoLike');
 
 Route::get('/getBusinessCategories', 'ApiController@getBusinessCategories');
 Route::get('/getStates', 'ApiController@getStates');
+
+Route::post('/answerquestion/{livead}', 'ApiController@answerQuestion');
+Route::post('/isanswered/{livead}', 'ApiController@isQuestionAnswered');
+
+Route::get('/processwinners', 'WinnerController@processWinners');
+Route::get('/winners', 'WinnerController@getWinners');
