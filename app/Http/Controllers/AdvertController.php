@@ -51,6 +51,10 @@ class AdvertController extends Controller
         $ad->approved = true;
         $ad->save();
 
+        $text = "Your Advert has been approved al will be post in the batch that starts :with the date the batch will start and end";
+        M::sendEmail($ad->vendor->user->email, $ad->vendor->user->name, "Advert Approved", $text);
+        M::sendMessage("Advert Approved", $text, "info", $ad->vendor->user->id);
+
         M::flash("The advert has been approved");
 
         return Redirect::back();
@@ -59,6 +63,10 @@ class AdvertController extends Controller
     public function unapproveAd(Request $request, Ad $ad){
         $ad->approved = false;
         $ad->save();
+        
+        $text = "Your Advert has been declined for more information kindly visit our Frequently Asked Questions page";
+        M::sendEmail($ad->vendor->user->email, $ad->vendor->user->name, "Advert Declined", $text);
+        M::sendMessage("Advert Declined", $text, "info", $ad->vendor->user->id);
 
         M::flash("The advert has been un-approved", "warning");
         

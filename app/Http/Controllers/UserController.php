@@ -9,6 +9,7 @@ use App\User;
 use App\Models\Vendor;
 use App\Helpers\M;
 
+use Mail;
 use Auth; 
 
 class UserController extends Controller
@@ -54,6 +55,9 @@ class UserController extends Controller
         ]);
         $output['message'] = "Successfully logged in";
 
+        $text = "Welcome to GratisBuzz Digital Marketing Platform, where Small and Medium scale Entrepreneurs get the EXPOSURE they desire and User get appreciated for being a part of the process. For more information kindly visit How It Works and Frequently Asked Questions.";
+        M::sendEmail($req->email, $req->name, "Welcome to Gratisbuzz", $text);
+
 		return response()->json($output, 201);
     }
 
@@ -81,7 +85,7 @@ class UserController extends Controller
 
         foreach($users as $user){
             M::sendMessage($post['title'], $post['message'], $post['type'], $user->id);
-            // TODO: Send email to everyone too
+            M::sendEmail($user->email, $user->name, $post['title'], $post['message']);
         }
         
         M::flash("successfully sent to everyone", "success");
@@ -94,7 +98,7 @@ class UserController extends Controller
         $post = $request->all();
         
         M::sendMessage($post['title'], $post['message'], $post['type'], $post['user_id']);
-        // TODO: Send email to user too
+        M::sendEmail($user->email, $user->name, $post['title'], $post['message']);
         
         M::flash("Message successfully sent", "success");
 

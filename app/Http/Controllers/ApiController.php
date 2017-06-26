@@ -232,6 +232,10 @@ class ApiController extends Controller
         $post['image'] = "http://placehold.it/300x150?text=Default%20Image";
         $ad = Ad::create($post);
 
+        $text = "Thank you for using GratisBuzz your advert is been processed";
+        M::sendEmail($vendor->user->email, $vendor->user->name, "Advert Submitted", $text);
+        M::sendMessage("Advert Submitted", $text, "info", $vendor->user->id);
+
 		return response()->json($ad, 201);        
     }
 
@@ -257,6 +261,10 @@ class ApiController extends Controller
         ];
 
         $livePromo = LivePromo::create($lp);
+
+        $text = "Thank you for using GratisBuzz Promotion’s Awareness platform, kindly visit the Promotion page to view your advert";
+        M::sendEmail($vendor->user->email, $vendor->user->name, "Promotion Submitted", $text);
+        M::sendMessage("Advert Submitted", $text, "info", $vendor->user->id);
 
 		return response()->json($promo, 201);        
     }

@@ -109,6 +109,19 @@ class M
         DB::table('admin_messages')->insert($input);
     }
 
+
+    public function sendEmail($to_email, $to_name, $subject, $text){
+        Mail::raw($text, function ($message) {
+            $message->from('info@gratisbuzz.com', 'Gratisbuzz');
+            $message->sender('info@gratisbuzz.com', 'Gratisbuzz');
+        
+            $message->to($to_email, $to_name);
+        
+            $message->subject($subject);
+        });
+        
+    }
+
     static function getUserMessages($user_id){
         return DB::table("admin_messages")->where(["user_id" => $user_id])->orderBy("created_at", "DESC")->get();
     }
