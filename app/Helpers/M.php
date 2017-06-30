@@ -3,6 +3,7 @@ namespace App\Helpers;
 
 use DB;
 use Carbon\Carbon;
+use Mail;
 
 class M
 {
@@ -111,7 +112,7 @@ class M
 
 
     static function sendEmail($to_email, $to_name, $subject, $text){
-        Mail::raw($text, function ($message) {
+        Mail::raw($text, function ($message) use ($to_email, $to_name, $subject) {
             $message->from('info@gratisbuzz.com', 'Gratisbuzz');
             $message->sender('info@gratisbuzz.com', 'Gratisbuzz');
         
