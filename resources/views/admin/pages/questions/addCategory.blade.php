@@ -49,11 +49,11 @@
                             <div class="col-md-12">
                                 <hr />
                                 <table class="table">
-                                    @foreach($qcs as $qc)
+                                    @foreach($qcs as $name => $id)
                                         <tr>
-                                            <td>{{$qc}}</td>
+                                            <td>{{$name}}</td>
                                             <td style="text-align: right">
-                                                <!-- <a href="{{url('questions/category/remove/')}}" class="btn btn-xs btn-danger">Remove</a> -->
+                                                <a href="{{url('question/category/'.$id.'/remove/')}}" class="btn btn-xs btn-danger">Remove</a>
                                             </td>
                                         </tr>
                                     @endforeach

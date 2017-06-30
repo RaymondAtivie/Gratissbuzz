@@ -23,7 +23,15 @@ class SettingsController extends Controller
         return back();
     }
 
-    public function states(){;
+    public function removeBusiness($b_id){
+        M::removeBusinessCategory($b_id);
+
+        M::flash("Successfully removed business category", "success");
+
+        return back();
+    }
+
+    public function states(){
         $allStates = M::getStatesArray();
         $states = M::getStates();
         return view("admin.pages.settings.state", compact("allStates", "states"));

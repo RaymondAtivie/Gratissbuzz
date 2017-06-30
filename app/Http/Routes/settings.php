@@ -2,10 +2,13 @@
 
 Route::get('question/addCategory', 'QuestionController@addCategory');
 Route::post('question/addCategory', 'QuestionController@addNewCategory');
+Route::get('/question/category/{qc_id}/remove', 'QuestionController@removeCategory');
+
 Route::get('/settings/questions', 'QuestionController@addCategory');
 
 Route::get('/settings/business', 'SettingsController@business');
 Route::post('/settings/addBusiness', 'SettingsController@addBusiness');
+Route::get('/settings/business/{b_id}/remove', 'SettingsController@removeBusiness');
 
 Route::get('/settings/states', 'SettingsController@states');
 Route::post('/settings/addLga', 'SettingsController@addLga');

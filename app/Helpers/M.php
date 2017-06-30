@@ -14,7 +14,7 @@ class M
     }
 
     static function getQuestionCategories(){
-         return collect(DB::table('question_categories')->get())->lists("name")->toArray();
+         return collect(DB::table('question_categories')->get())->lists("id", "name")->toArray();
     }
 
     static function addQuestionCategory($newCat){
@@ -24,8 +24,12 @@ class M
             ]);
     }
 
+    static function removeQuestionCategory($cat_id){
+        DB::table("question_categories")->where(['id'=>$cat_id])->delete();
+    }
+
     static function getBusinessCategories(){
-         return collect(DB::table('business_category')->get())->lists("name")->toArray();
+         return collect(DB::table('business_category')->get())->lists("id", "name")->toArray();
     }
     
     static function addBusinessCategory($newCat){
@@ -33,6 +37,10 @@ class M
             ->insert([
                 'name'=>$newCat
             ]);
+    }
+    
+    static function removeBusinessCategory($b_id){
+          DB::table("business_category")->where(['id'=>$b_id])->delete();
     }
 
     static function getStatesArray(){

@@ -48,6 +48,17 @@ class Vendor extends Model
         }
     }
 
+    public function getStoreAttribute($value){
+        if($value){
+            $scheme = 'http://';
+            
+            return parse_url($value, PHP_URL_SCHEME) === null ?
+                $scheme . $value : $value;
+        }else{
+            return false;
+        }
+    }
+
     public function getTwitterLinkAttribute($value){
         if($this->twitter){
             $username = trim(ltrim($this->twitter, "@"));

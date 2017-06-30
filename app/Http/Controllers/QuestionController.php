@@ -20,6 +20,14 @@ class QuestionController extends Controller
         return view("admin.pages.questions.addCategory", compact("qcs"));
     }
 
+    public function removeCategory($cat_id){
+        M::removeQuestionCategory($cat_id);
+
+        M::flash("Successfully removed question category", "success");
+
+        return back();
+    }
+
     public function addNewCategory(Request $request){
         M::addQuestionCategory($request->name);
 
