@@ -110,7 +110,7 @@ class M
     }
 
 
-    public function sendEmail($to_email, $to_name, $subject, $text){
+    static function sendEmail($to_email, $to_name, $subject, $text){
         Mail::raw($text, function ($message) {
             $message->from('info@gratisbuzz.com', 'Gratisbuzz');
             $message->sender('info@gratisbuzz.com', 'Gratisbuzz');

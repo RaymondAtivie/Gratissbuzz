@@ -14,6 +14,7 @@ use App\Models\Promo;
 use App\Models\LiveAd;
 use App\Models\LivePromo;
 use App\Models\Batch;
+use App\Models\Content;
 use Carbon\Carbon;
 
 class ApiController extends Controller
@@ -405,6 +406,18 @@ class ApiController extends Controller
         $states = M::getStatesArray();
 
 		return response()->json($states, 201);              
+    }
+
+    function getContent($content_name){
+        $content = Content::where(['name'=>$content_name])->first();
+
+        $data = [
+            "success"=>"true",
+            "message"=>"$content_name content retrieved",
+            "data" => $content
+        ];
+
+		return response()->json($data, 201);              
     }
 
     function answerQuestion(Request $request, LiveAd $livead){

@@ -85,6 +85,41 @@
         </ul>
     </li>
 
+    
+    <li>
+        <h3 class="navigation-title">Content Management</h3>
+    </li>
+     <li>
+        <a href="{{url('content/about')}}">
+            <i class="fa fa-file-text-o"></i><span>About Us</span>
+        </a>
+    </li>
+     <li>
+        <a href="{{url('content/how')}}">
+            <i class="fa fa-file-text-o"></i><span>How it Works</span>
+        </a>
+    </li>
+     <li>
+        <a href="{{url('content/faq')}}">
+            <i class="fa fa-file-text-o"></i><span>FAQ</span>
+        </a>
+    </li>
+     <li>
+        <a href="{{url('content/contact')}}">
+            <i class="fa fa-file-text-o"></i><span>Contact Us</span>
+        </a>
+    </li>
+     <li>
+        <a href="{{url('content/terms')}}">
+            <i class="fa fa-file-text-o"></i><span>Terms And Conditions</span>
+        </a>
+    </li>
+     <li>
+        <a href="{{url('content/privacy')}}">
+            <i class="fa fa-file-text-o"></i><span>Privacy Policy</span>
+        </a>
+    </li>
+
     <li>
         <h3 class="navigation-title">Settings</h3>
     </li>

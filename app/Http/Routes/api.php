@@ -44,3 +44,5 @@ Route::post('/isanswered/{livead}', 'ApiController@isQuestionAnswered');
 
 Route::get('/processwinners', 'WinnerController@processWinners');
 Route::get('/winners', 'WinnerController@getWinners');
+
+Route::get('/content/{content_name}', 'ApiController@getContent');
