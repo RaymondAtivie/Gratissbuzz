@@ -4,6 +4,9 @@ Route::get('/users', 'ApiController@getUsers');
 Route::post('/loginuser', 'UserController@login');
 Route::post('/signupuser', 'UserController@signup');
 
+Route::post('/updatepicture/{user_id}', 'UserController@updatePicture');
+Route::post('/updatevendorpicture/{vendor_id}', 'UserController@updateVendorPicture');
+
 Route::post('/addvendor/{user}', 'ApiController@addVendor');
 
 Route::post('/livepromos', 'ApiController@getLivePromosSearch');

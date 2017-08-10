@@ -11,6 +11,7 @@ use App\Helpers\M;
 
 use Mail;
 use Auth; 
+use Image; 
 
 class UserController extends Controller
 {
@@ -51,6 +52,7 @@ class UserController extends Controller
             'gender' => $req->gender,
             'status' => $req->status,
             'referal' => $this->genReferal(7),
+            'refered' => $this->getReferedId($req->referal),
             'password' => bcrypt($req->password),
         ]);
         $output['message'] = "Successfully logged in";
@@ -116,5 +118,53 @@ class UserController extends Controller
         }
 
         return $string;
+    }
+
+    private function getReferedId($referal){
+        $user = User::where(['referal'=>$referal])->first();
+
+        if($user){
+            return $user->id;
+        }else{
+            return false;
+        }
+    }
+
+    public function updatePicture(Request $request, $user_id){
+        $user = User::find($user_id);
+        $post = $request->all();
+
+        $save_path = "upload_profile_pics/";
+        $filename = rand(1000,9999999).time().".jpg";
+
+		$img = Image::make($post['image']);
+        $img->resize(350, null, function ($constraint) { $constraint->aspectRatio(); })
+            ->crop(150, 150)
+        	->save($save_path.$filename);
+
+        $user->image = url($save_path.$filename);
+
+        $user->save();
+
+        return response()->json(['message'=>'Successfully updated your profile picture', 'image'=>$user->image], 200);
+    }
+
+    public function updateVendorPicture(Request $request, $vendor_id){
+        $vendor = Vendor::find($vendor_id);
+        $post = $request->all();
+
+        $save_path = "upload_vendor_pics/";
+        $filename = rand(1000,9999999).time().".jpg";
+
+		$img = Image::make($post['image']);
+        $img->resize(350, null, function ($constraint) { $constraint->aspectRatio(); })
+            ->crop(150, 150)
+        	->save($save_path.$filename);
+
+        $vendor->image = url($save_path.$filename);
+
+        $vendor->save();
+
+        return response()->json(['message'=>'Successfully updated your vendor picture', 'image'=>$vendor->image], 200);
     }
 }

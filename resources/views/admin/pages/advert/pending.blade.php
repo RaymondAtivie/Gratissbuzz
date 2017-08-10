@@ -39,6 +39,9 @@
                                         Company
                                     </th>
                                     <th>
+                                        Image
+                                    </th>
+                                    <th>
                                         Description
                                     </th>
                                     <th>
@@ -65,6 +68,9 @@
                                             <button class="btn btn-link" data-toggle="modal" data-target="#vendorModal{{$a->vendor->id}}">
                                                 {{$a->vendor->name}}
                                             </button>
+                                        </td>
+                                        <td data-featherlight="#lightbox{{$a->id}}">
+                                            <img src="{{$a->image}}" id="lightbox{{$a->id}}" class="img-responsive" />
                                         </td>
                                         <td>
                                             <small>{{$a->description}}</small>
