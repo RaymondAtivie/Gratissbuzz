@@ -12,7 +12,7 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'name', 'email', 'phone', 'image', 'location', 'status', 'gender', 'username', 'referal', 'password',
+        'name', 'email', 'phone', 'image', 'location', 'status', 'gender', 'username', 'referal', 'refered', 'password',
     ];
 
     /**
@@ -28,5 +28,9 @@ class User extends Authenticatable
     public function vendor()
     {
         return $this->hasMany("App\Models\Vendor");
+    }
+
+    public function referedUser(){
+        return $this->hasOne("App\User", "id", "refered");
     }
 }

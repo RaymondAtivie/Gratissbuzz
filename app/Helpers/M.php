@@ -29,7 +29,8 @@ class M
     }
 
     static function getBusinessCategories(){
-         return collect(DB::table('business_category')->get())->lists("id", "name")->toArray();
+         return DB::table('business_category')->get();
+        //  return collect(DB::table('business_category')->get())->lists("id", "name")->toArray();
     }
     
     static function addBusinessCategory($newCat){
