@@ -35,9 +35,17 @@ class ApiController extends Controller
 	
 	function addVendor(Request $request, User $user){
 		$post = $request->all();
+
+		$save_path = "upload_ads/";
+        $filename = rand(1000,9999999).time().".jpg";
+
+        $img = Image::make($post['image']);
+        $img->resize(350, null, function ($constraint) { $constraint->aspectRatio(); })
+            ->crop(150, 150)
+        	->save($save_path.$filename);
 		
-		$post['image'] = url('assets/images/vendor/unknown.jpg');
-		$post['extra_image'] = url('assets/images/vendor/unknown.jpg');
+		$post['image'] = url($save_path.$filename);
+		// $post['extra_image'] = url('assets/images/vendor/unknown.jpg');
 		$newVendor = $user->vendor()->create($post);
 		
 		return response()->json($newVendor, 201);
