@@ -20,6 +20,8 @@ Route::get('/messages/{user}', 'ApiController@getUserMessages');
 Route::get('/messages/{user}/num', 'ApiController@getUserMessagesNum');
 Route::get('/messages/{message}/seen', 'ApiController@readMessage');
 
+Route::get('/vendors', 'ApiController@allVendors');
+Route::get('/vendors/{vendor}/finder', 'ApiController@addToBrandFinder');
 Route::get('/vendor/{vendor}/ads', 'ApiController@getVendorsAds');
 Route::get('/vendor/{vendor}/promos', 'ApiController@getVendorsPromos');
 Route::get('/vendor/{vendor}/liveads', 'ApiController@getVendorsLiveAds');
@@ -27,6 +29,8 @@ Route::get('/vendor/{vendor}/livepromos', 'ApiController@getVendorsLivePromos');
 
 Route::post('/submitad/{vendor}', 'ApiController@submitAd');
 Route::post('/submitpromo/{vendor}', 'ApiController@submitPromo');
+
+Route::get('/promo/{promo}/interactive', 'ApiController@makePromoInteractive');
 
 Route::post('/submitpromocomment/{promo}', 'ApiController@submitPromoComment');
 Route::post('/submitadcomment/{ad}', 'ApiController@submitAdComment');
@@ -49,3 +53,5 @@ Route::get('/processwinners', 'WinnerController@processWinners');
 Route::get('/winners', 'WinnerController@getWinners');
 
 Route::get('/content/{content_name}', 'ApiController@getContent');
+
+Route::post('/contact_us/{user_id}', 'ApiController@contactUs');

@@ -505,4 +505,56 @@ class ApiController extends Controller
 		
 		return response()->json($data, 201);
 	}
+
+	function contactUs(Request $req, $user_id){
+		$user = User::find($user_id);
+
+		$message = $req->message;
+
+		$text = "<b>".$user->name."</b> with email <b>".$user->email."</b> said: <hr />";
+		$text .= $message;
+
+		$email_to = "RaymondAtivie@gmail.com";
+		// $email_to = "ohiomobaalfred@gmail.com";
+	
+		M::sendEmail($email_to, $user->name, $user->name." from Gratisbuzz", $text);
+
+		$data = [
+            "success"=>true,
+            "message"=>"Your message has been sent. The gratisbuzz team would get back to you by email."
+        ];
+		
+		return response()->json($data, 200);
+	}
+
+	function allVendors(){
+		$vendors = Vendor::where(['find'=>true])->get();
+
+		return response()->json($vendors, 200);
+	}
+
+	function addToBrandFinder(Vendor $vendor){
+		$vendor->find = true;
+
+		$vendor->save();
+
+		$data = [
+            "success"=>true,
+            "message"=>"Your company has been added to brand finder"
+        ];
+		
+		return response()->json($data, 200);
+	}
+
+	function makePromoInteractive(Promo $promo){
+		$promo->sharable = true;
+		$promo->save();
+
+		$data = [
+            "success"=>true,
+            "message"=>"Your promo can now be interacted with"
+        ];
+		
+		return response()->json($data, 200);
+	}
 }
