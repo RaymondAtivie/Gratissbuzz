@@ -12,6 +12,9 @@ class Vendor extends Model
     protected $appends = [
         "twitter_link", "facebook_link", "instagram_link", "youtube_link"
     ];
+    protected $casts = [
+        'find' => 'boolean'
+    ];
 
     //RELATIONSHIPS
     public function user()
