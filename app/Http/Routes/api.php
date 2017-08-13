@@ -1,5 +1,9 @@
 <?php 
 
+Route::get('/', function(){
+    phpinfo();
+});
+
 Route::get('/users', 'ApiController@getUsers');
 Route::post('/loginuser', 'UserController@login');
 Route::post('/signupuser', 'UserController@signup');
