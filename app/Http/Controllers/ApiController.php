@@ -57,7 +57,7 @@ class ApiController extends Controller
 		            ->where("end", ">=", $this->now)
 		            ->orderBy("created_at", "DESC")
 		            ->with("promo.vendor", "promo.comments.user", "promo.likes.user", "promo.shares.user")
-		            ->get();
+					->get();
 		
 		return response()->json($promos, 200);
 	}
@@ -240,15 +240,21 @@ class ApiController extends Controller
 		$post = $request->all();
 
         $save_path = "upload_ads/";
-        $filename = rand(1000,9999999).time().".jpg";
-
-		$img = Image::make($post['image']);
-        $img->resize(550, null, function ($constraint) { $constraint->aspectRatio(); })
-        	->save($save_path.$filename);
 		
-		$post['vendor_id'] = $vendor->id;
-		$post['image'] = url($save_path.$filename);
-		$ad = Ad::create($post);
+		$images = [];
+		foreach($post['newImages'] as $newImage){
+			$filename = rand(1000,9999999).time().".jpg";
+
+			$img = Image::make($newImage);
+			$img->resize(550, null, function ($constraint) { $constraint->aspectRatio(); })
+				->save($save_path.$filename);
+			$images[] = url($save_path.$filename);
+		}
+		
+		$data = $request->only(['description', 'incentive_amt', 'incentive', 'selection_method']);
+		$data['vendor_id'] = $vendor->id;
+		$data['image'] = $images;
+		$ad = Ad::create($data);
 		
 		$text = "Thank you for using GratisBuzz your advert is been processed";
 		M::sendEmail($vendor->user->email, $vendor->user->name, "Advert Submitted", $text);
@@ -260,18 +266,23 @@ class ApiController extends Controller
 	function submitPromo(Request $request, Vendor $vendor){
 		$post = $request->all();
 
-        $save_path = "upload_ads/";
-        $filename = rand(1000,9999999).time().".jpg";
+		$save_path = "upload_ads/";
+		
+		$images = [];
+		foreach($post['newImages'] as $newImage){
+			$filename = rand(1000,9999999).time().".jpg";
 
-		$img = Image::make($post['image']);
-        $img->resize(550, null, function ($constraint) { $constraint->aspectRatio(); })
-        	->save($save_path.$filename);
+			$img = Image::make($newImage);
+			$img->resize(550, null, function ($constraint) { $constraint->aspectRatio(); })
+				->save($save_path.$filename);
+			$images[] = url($save_path.$filename);
+		}
 		
 		$data = $request->only(['description', 'short_description', 'category', 'location']);
 		$start_date = Carbon::parse($post['startDate']);
 		$data['approved'] = 1;
 		$data['vendor_id'] = $vendor->id;
-		$data['image'] = url($save_path.$filename);
+		$data['image'] = $images;
 		
 		$promo = Promo::create($data);
 		

@@ -60,8 +60,14 @@
                                                 {{$a->vendor->name}}
                                             </button>
                                         </td>
-                                        <td data-featherlight="#lightbox{{$a->id}}">
-                                            <img src="{{$a->image}}" id="lightbox{{$a->id}}" class="img-responsive" />
+                                        <td>
+                                            <?php $i=0; ?>
+                                            @foreach($a->image as $img)
+                                                <div style="width: 50px; display: inline-block" data-featherlight="#lightbox{{$a->id}}{{$i}}">
+                                                    <img src="{{$img}}" id="lightbox{{$a->id}}{{$i}}" class="img-responsive" />
+                                                    <?php $i++; ?>
+                                                </div>
+                                            @endforeach
                                         </td>
                                         <td>
                                             <small>{{$a->description}}</small>

@@ -9,7 +9,8 @@ class Ad extends Model
     protected $guarded = ['id'];
     protected $casts = [
         'approved' => 'boolean',
-        'sharable' => 'boolean'
+        'sharable' => 'boolean',
+        'image' => 'array'
     ];
 
     public function scopeApproved($query, $type=1){

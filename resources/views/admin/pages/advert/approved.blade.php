@@ -70,8 +70,14 @@
                                                 {{$a->vendor->name}}
                                             </button>
                                         </td>
-                                        <td data-featherlight="#lightbox{{$a->id}}">
-                                            <img src="{{$a->image}}" id="lightbox{{$a->id}}" class="img-responsive" />
+                                        <td>
+                                            <?php $i=0; ?>
+                                            @foreach($a->image as $img)
+                                                <div style="width: 50px; display: inline-block" data-featherlight="#lightbox{{$a->id}}{{$i}}">
+                                                    <img src="{{$img}}" id="lightbox{{$a->id}}{{$i}}" class="img-responsive" />
+                                                    <?php $i++; ?>
+                                                </div>
+                                            @endforeach
                                         </td>
                                         <td>
                                             <small>{{$a->description}}</small>
@@ -116,7 +122,9 @@
                                                     <div class="modal-body">
                                                         <div class="row">
                                                             <div class="col-md-10 col-md-offset-1">
-                                                                <img class="img-responsive" src="{{$a->image}}" />
+                                                                @foreach($a->image as $img)
+                                                                    <img src="{{$img}}" style="max-width: 100px; display: inline-block" class="img-responsive" />
+                                                                @endforeach
                                                             </div>
                                                         </div>
                                                         <br />
