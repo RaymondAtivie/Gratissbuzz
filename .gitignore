@@ -5,6 +5,7 @@ Homestead.yaml
 Homestead.json
 .env
 .vscode/
+/public/assets/images
 /public/upload_ads
 /public/upload_vendor_pics
 /public/upload_profile_pics

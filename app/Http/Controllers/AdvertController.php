@@ -51,7 +51,7 @@ class AdvertController extends Controller
         $ad->approved = true;
         $ad->save();
 
-        $text = "Your Advert has been approved al will be post in the batch that starts :with the date the batch will start and end";
+        $text = "Your Advert has been approved and you will be notified with the date and time when it would go live.";
         M::sendEmail($ad->vendor->user->email, $ad->vendor->user->name, "Advert Approved", $text);
         M::sendMessage("Advert Approved", $text, "info", $ad->vendor->user->id);
 
@@ -192,6 +192,12 @@ class AdvertController extends Controller
                     $endDate->format('l jS \\of F Y h:i A') . "</b>";
 
         M::flash($message, "success");
+
+        //SEND MESSAGE TO USER
+        $text = "Your Advert has would be live on Gratisbuzz between: ". $beginDate->format('l jS \\of F Y h:i A')." and ".$endDate->format('l jS \\of F Y h:i A').".";
+        M::sendEmail($ad->vendor->user->email, $ad->vendor->user->name, "Advert Gone LIVE", $text);
+        M::sendMessage("Advert Gone LIVE", $text, "info", $ad->vendor->user->id);
+        //////////////////////
 
         return Redirect::back();
     }

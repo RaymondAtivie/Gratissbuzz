@@ -199,7 +199,7 @@ class ApiController extends Controller
 		$sAds = \App\Models\StandardAd::
 		            whereDate("begin", "<=", $this->now)
 		            ->whereDate("end", ">=", $this->now)
-		            ->get();
+                    ->get();
 		
 		return response()->json($sAds, 200);
 	}
@@ -256,7 +256,7 @@ class ApiController extends Controller
 		$data['image'] = $images;
 		$ad = Ad::create($data);
 		
-		$text = "Thank you for using GratisBuzz your advert is been processed";
+		$text = "Thank you for using GratisBuzz your advert is being processed";
 		M::sendEmail($vendor->user->email, $vendor->user->name, "Advert Submitted", $text);
 		M::sendMessage("Advert Submitted", $text, "info", $vendor->user->id);
 		
@@ -542,7 +542,40 @@ class ApiController extends Controller
 		$vendors = Vendor::where(['find'=>true])->get();
 
 		return response()->json($vendors, 200);
-	}
+    }
+    
+    function allVendorsSearch(Request $req){
+        $vendors = Vendor::where(['find'=>true])->get();
+
+        $post = $req->all();
+        
+        $newVendors = [];
+		foreach($vendors as $vendor){
+			
+			if($post['category'] != "All"){
+				if($vendor->category != $post['category']){
+					continue;
+				}
+			}
+			
+			if($post['lga'] != "All"){
+				if (strpos($vendor->location, $post['lga']) === false) {
+					continue;
+				}
+			}
+			
+			if($post['state'] != "All"){
+				if (strpos($vendor->location, $post['state']) === false) {
+					continue;
+				}
+			}
+			
+			$newVendors[] = $vendor;
+			
+		}
+        
+        return response()->json($newVendors, 200);
+    }
 
 	function addToBrandFinder(Vendor $vendor){
 		$vendor->find = true;
@@ -555,7 +588,20 @@ class ApiController extends Controller
         ];
 		
 		return response()->json($data, 200);
-	}
+    }
+    
+    function removeFromBrandFinder(Vendor $vendor){
+        $vendor->find = false;
+        
+        $vendor->save();
+
+        $data = [
+            "success"=>true,
+            "message"=>"Your company has been removed from brand finder"
+        ];
+        
+        return response()->json($data, 200);
+    }
 
 	function makePromoInteractive(Promo $promo){
 		$promo->sharable = true;

@@ -25,7 +25,9 @@ Route::get('/messages/{user}/num', 'ApiController@getUserMessagesNum');
 Route::get('/messages/{message}/seen', 'ApiController@readMessage');
 
 Route::get('/vendors', 'ApiController@allVendors');
+Route::post('/vendors', 'ApiController@allVendorsSearch'); //SEARCHING
 Route::get('/vendors/{vendor}/finder', 'ApiController@addToBrandFinder');
+Route::get('/vendors/{vendor}/finder/remove', 'ApiController@removeFromBrandFinder');
 Route::get('/vendor/{vendor}/ads', 'ApiController@getVendorsAds');
 Route::get('/vendor/{vendor}/promos', 'ApiController@getVendorsPromos');
 Route::get('/vendor/{vendor}/liveads', 'ApiController@getVendorsLiveAds');
