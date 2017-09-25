@@ -7,5 +7,6 @@ Homestead.json
 .vscode/
 /public/assets/images
 /public/upload_ads
+/public/_upload_ads
 /public/upload_vendor_pics
 /public/upload_profile_pics

@@ -40,11 +40,14 @@ class ApiController extends Controller
         $filename = rand(1000,9999999).time().".jpg";
 
         $img = Image::make($post['image']);
+        $img->save('_'.$save_path.$filename);
+        
         $img->resize(350, null, function ($constraint) { $constraint->aspectRatio(); })
             ->crop(150, 150)
         	->save($save_path.$filename);
 		
 		$post['image'] = url($save_path.$filename);
+		$post['full_image'] = url('_'.$save_path.$filename);
 		// $post['extra_image'] = url('assets/images/vendor/unknown.jpg');
 		$newVendor = $user->vendor()->create($post);
 		
