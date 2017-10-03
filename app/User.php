@@ -27,7 +27,7 @@ class User extends Authenticatable
     //Relationships
     public function vendor()
     {
-        return $this->hasMany("App\Models\Vendor");
+        return $this->hasMany("App\Models\Vendor")->where(['deleted'=>false]);
     }
 
     public function referedUser(){

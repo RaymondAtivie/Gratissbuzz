@@ -107,7 +107,13 @@
                                                     <div class="modal-body">
                                                         <div class="row">
                                                             <div class="col-md-10 col-md-offset-1">
-                                                                <img class="img-responsive" src="{{$a->image}}" />
+                                                            
+                                                                <?php $i=0; ?>
+                                                                @foreach($a->image as $img)
+                                                                        <img src="{{$img}}" class="img-responsive" />
+                                                                        <?php $i++; ?>
+                                                                    </div>
+                                                                @endforeach
                                                             </div>
                                                         </div>
                                                         <br />

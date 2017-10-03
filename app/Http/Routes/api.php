@@ -8,6 +8,8 @@ Route::get('/users', 'ApiController@getUsers');
 Route::post('/loginuser', 'UserController@login');
 Route::post('/signupuser', 'UserController@signup');
 
+Route::post('/users/{user_id}/edit', 'UserController@editInfo');
+
 Route::post('/updatepicture/{user_id}', 'UserController@updatePicture');
 Route::post('/updatevendorpicture/{vendor_id}', 'UserController@updateVendorPicture');
 
@@ -26,6 +28,8 @@ Route::get('/messages/{message}/seen', 'ApiController@readMessage');
 
 Route::get('/vendors', 'ApiController@allVendors');
 Route::post('/vendors', 'ApiController@allVendorsSearch'); //SEARCHING
+Route::get('/vendors/{vendor_id}/delete', 'UserController@deleteVendor');
+
 Route::get('/vendors/{vendor}/finder', 'ApiController@addToBrandFinder');
 Route::get('/vendors/{vendor}/finder/remove', 'ApiController@removeFromBrandFinder');
 Route::get('/vendor/{vendor}/ads', 'ApiController@getVendorsAds');

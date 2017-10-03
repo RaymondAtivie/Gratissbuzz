@@ -542,13 +542,13 @@ class ApiController extends Controller
 	}
 
 	function allVendors(){
-		$vendors = Vendor::where(['find'=>true])->get();
+		$vendors = Vendor::where(['find'=>true, 'deleted'=>false])->get();
 
 		return response()->json($vendors, 200);
     }
     
     function allVendorsSearch(Request $req){
-        $vendors = Vendor::where(['find'=>true])->get();
+        $vendors = Vendor::where(['find'=>true, 'deleted'=>false])->get();
 
         $post = $req->all();
         

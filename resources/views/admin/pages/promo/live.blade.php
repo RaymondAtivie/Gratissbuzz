@@ -77,8 +77,14 @@
                                                 <i class="fa fa-circle" style="color: yellow"></i>
                                             @endif
                                         </td>
-                                        <td data-featherlight="#lightbox{{$la->promo->id}}">
-                                            <img src="{{$la->promo->image}}" id="lightbox{{$la->promo->id}}" class="img-responsive" />
+                                        <td>
+                                            <?php $i=0; ?>
+                                            @foreach($la->promo->image as $img)
+                                                <div style="width: 50px; display: inline-block" data-featherlight="#lightbox{{$la->promo->id}}{{$i}}">
+                                                    <img src="{{$img}}" id="lightbox{{$la->promo->id}}{{$i}}" class="img-responsive" />
+                                                    <?php $i++; ?>
+                                                </div>
+                                            @endforeach
                                         </td>
                                         <td>
                                             <small>{{$la->promo->description}}</small>
@@ -119,8 +125,10 @@
                                                     <input type="hidden" name="selection_method" value="{{$la->promo->selection_method}}" />
                                                     <div class="modal-body">
                                                         <div class="row">
-                                                            <div class="col-md-10 col-md-offset-1">
-                                                                <img class="img-responsive" src="{{$la->promo->image}}" />
+                                                            <div class="col-md-10 col-md-offset-1"></div>
+                                                                @foreach($la->promo->image as $img)
+                                                                    <img src="{{$img}}" class="img-responsive" />
+                                                                @endforeach
                                                             </div>
                                                         </div>
                                                         <br />

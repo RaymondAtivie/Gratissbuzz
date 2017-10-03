@@ -97,8 +97,8 @@
                                                             <h4>Question Category</h4>
                                                             <select name="category" class="form-control" required>
                                                                 <option value="">{{$q->category}}</option>
-                                                                @foreach($qcs as $qc)
-                                                                    <option value="{{$qc}}">{{$qc}}</option>
+                                                                @foreach($qcs as $value => $id)
+                                                                    <option value="{{$id}}">{{$value}}</option>
                                                                 @endforeach
                                                             </select>
                                                         </div>

@@ -70,7 +70,7 @@ class UserController extends Controller
     }
 
     public function viewAllVendors(){
-        $vendors = Vendor::get();
+        $vendors = Vendor::where(['deleted'=>false])->get();
 
         return view("admin.pages.users.viewallvendors", compact("vendors"));
     }
@@ -166,5 +166,37 @@ class UserController extends Controller
         $vendor->save();
 
         return response()->json(['message'=>'Successfully updated your vendor picture', 'image'=>$vendor->image], 200);
+    }
+
+    public function editInfo(Request $request, $user_id){
+        $user = User::find($user_id);
+
+        $post = $request->all();
+
+
+        $key = $request->get('key');
+        $value = $request->get('value');
+
+        // dd($key, $value, $post, $user_id);
+
+        $user->$key = $value;
+
+        $user->save();
+        $user->load(['vendor.ads', 'vendor.promos', 'vendor.liveads', 'vendor.livepromos']);
+
+        return response()->json(['message'=>'Successfully updated your profile', 'data'=>$user], 201);
+    }
+
+    public function deleteVendor($vendor_id){
+        $vendor = Vendor::find($vendor_id);
+
+        $user = $vendor->user;
+
+        $vendor->deleted = true;
+        $vendor->save();
+
+        $user->load(['vendor.ads', 'vendor.promos', 'vendor.liveads', 'vendor.livepromos']);
+
+        return response()->json(['message'=>'Successfully deleted', 'data'=>$user], 201);        
     }
 }

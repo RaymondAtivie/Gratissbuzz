@@ -13,31 +13,9 @@ class Vendor extends Model
         "twitter_link", "facebook_link", "instagram_link", "youtube_link"
     ];
     protected $casts = [
-        'find' => 'boolean'
+        'find' => 'boolean',
+        'deleted' => 'boolean'
     ];
-
-    //RELATIONSHIPS
-    public function user()
-    {
-        return $this->belongsTo("App\User", "user_id");
-    }
-
-    public function ads()
-    {
-        return $this->hasMany("App\Models\Ad");
-    }
-    public function promos()
-    {
-        return $this->hasMany("App\Models\Promo");
-    }
-    public function liveads()
-    {
-        return $this->hasMany("App\Models\LiveAd");
-    }
-    public function livepromos()
-    {
-        return $this->hasMany("App\Models\LivePromo");
-    }
 
     //EXTRA ATTRIBUTES
     public function getWebsiteAttribute($value){
@@ -96,6 +74,29 @@ class Vendor extends Model
         }else{
             return false;
         }
+    }
+
+    //RELATIONSHIPS
+    public function user()
+    {
+        return $this->belongsTo("App\User", "user_id");
+    }
+
+    public function ads()
+    {
+        return $this->hasMany("App\Models\Ad");
+    }
+    public function promos()
+    {
+        return $this->hasMany("App\Models\Promo");
+    }
+    public function liveads()
+    {
+        return $this->hasMany("App\Models\LiveAd");
+    }
+    public function livepromos()
+    {
+        return $this->hasMany("App\Models\LivePromo");
     }
     
 }

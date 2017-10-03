@@ -51,7 +51,7 @@ class AdvertController extends Controller
         $ad->approved = true;
         $ad->save();
 
-        $text = "Your Advert has been approved and you will be notified with the date and time when it would go live.";
+        $text = "Your advert has been approved and will be posted on the Gratis Advert page soon.";
         M::sendEmail($ad->vendor->user->email, $ad->vendor->user->name, "Advert Approved", $text);
         M::sendMessage("Advert Approved", $text, "info", $ad->vendor->user->id);
 
@@ -139,10 +139,10 @@ class AdvertController extends Controller
         }
 
         if($input['question'] == 'random'){
-            $question_id = Question::inRandomOrder()->first()->id;
+            $question_id = Question::where(['deleted'=>0])->inRandomOrder()->first()->id;
         }else{
             if(!$request->question_id){
-                $question_id = Question::inRandomOrder()->first()->id;
+                $question_id = Question::where(['deleted'=>0])->inRandomOrder()->first()->id;
             }else{
                 $question_id = $input['question_id'];
             }
@@ -239,6 +239,10 @@ class AdvertController extends Controller
         $lAds = LivePromo::whereDate("end", ">=", $now)
         ->orderBy("begin", "ASC")->get();
 
+        // $lAds[0]->ad;
+        // $lAds[0]->promo;
+
+        // return($lAds[0]);
         return view("admin.pages.promo.live", compact("lAds"));        
     }
 
